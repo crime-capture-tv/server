@@ -1,10 +1,16 @@
 package com.mtvs.crimecapturetv.store.command.aggregate.entity;
 
 import com.mtvs.crimecapturetv.store.command.aggregate.entity.enumType.StoreType;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "Store_TB")
 public class Store {
 
     @Id
