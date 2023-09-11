@@ -46,6 +46,15 @@ spring:
 mybatis:
   mapper-locations: mappers/**/*.xml
 
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    tagsSorter: alpha
+    operations-sorter: method
+    display-request-duration: true
+
 logging:
   level:
     org.mybatis: TRACE
