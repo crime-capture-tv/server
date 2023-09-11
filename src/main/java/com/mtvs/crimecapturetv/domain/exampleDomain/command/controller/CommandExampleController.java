@@ -1,4 +1,4 @@
 package com.mtvs.crimecapturetv.domain.exampleDomain.command.controller;
 
-public class CommandExampleContorller {
+public class CommandExampleController {
 }
