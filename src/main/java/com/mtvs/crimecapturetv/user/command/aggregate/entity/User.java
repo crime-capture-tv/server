@@ -19,14 +19,19 @@ public class User extends BaseEntity {
     @Column(name = "user_no")
     private Long No;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "id")
     private String id;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
