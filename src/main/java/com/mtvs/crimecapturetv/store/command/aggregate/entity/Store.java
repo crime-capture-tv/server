@@ -24,7 +24,7 @@ public class Store {
     @Column
     private String StoreAddress;
 
-    @Column
+    @Enumerated(EnumType.STRING)
     private StoreType storeType;
 
     @Column
