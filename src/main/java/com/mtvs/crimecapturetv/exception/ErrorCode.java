@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
 
-    DUPLICATED_USER_NAME(HttpStatus.CONFLICT, "User Name이 중복됩니다."),
+    DUPLICATED_USER_ID(HttpStatus.CONFLICT, "User Id가 중복됩니다."),
     DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "DB에러"),
     ;
 

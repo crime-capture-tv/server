@@ -35,6 +35,10 @@ dependencies {
 
     //swagger
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
+
+    // Security
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.7.5'
+    implementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
