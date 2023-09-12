@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserJoinRequest {
+public class CommandUserJoinRequest {
 
     private String id;          // 아이디
     private String password;    // 비밀번호

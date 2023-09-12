@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserJoinResponse {
+public class CommandUserJoinResponse {
 
     private String id;
     private String email;
@@ -18,8 +18,8 @@ public class UserJoinResponse {
     private String phoneNumber;
     private String role;
 
-    public static UserJoinResponse of (UserDto userDto){
-        return UserJoinResponse.builder()
+    public static CommandUserJoinResponse of (UserDto userDto){
+        return CommandUserJoinResponse.builder()
                 .id(userDto.getId())
                 .email(userDto.getEmail())
                 .name(userDto.getName())
