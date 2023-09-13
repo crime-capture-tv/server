@@ -31,4 +31,13 @@ public class CommandUserService {
         return UserDto.of(user);
     }
 
+    public UserDto findUser(String id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
+
+        return UserDto.of(user);
+    }
+
+
+
 }
