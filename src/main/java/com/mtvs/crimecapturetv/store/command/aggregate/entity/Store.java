@@ -1,6 +1,7 @@
 package com.mtvs.crimecapturetv.store.command.aggregate.entity;
 
 import com.mtvs.crimecapturetv.store.command.aggregate.entity.enumType.StoreType;
+import com.mtvs.crimecapturetv.user.command.aggregate.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,7 +23,7 @@ public class Store {
     private String storeName;
 
     @Column(name = "store_address")
-    private String StoreAddress;
+    private String storeAddress;
 
     @Enumerated(EnumType.STRING)
     private StoreType storeType;
@@ -32,5 +33,9 @@ public class Store {
 
     @Column(name = "store_phone_number")
     private String storePhoneNumber;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "name")
+    private User user;
 
 }
