@@ -1,6 +1,9 @@
-package com.mtvs.crimecapturetv.domain.video.command.aggregate.entity;
+package com.mtvs.crimecapturetv.domain.crimevideo.command.aggregate.entity;
 
+import com.mtvs.crimecapturetv.domain.crimevideo.command.aggregate.dto.CrimeVideoDTO;
+import com.mtvs.crimecapturetv.global.common.entity.BaseEntity;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "Crime_Video_TB")
-public class CrimeVideo {
+public class CrimeVideo extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +33,7 @@ public class CrimeVideo {
     private String crimeType;
 
     @Column(name = "criminal_Status")
+    @ColumnDefault("0")
     private Long criminalStatus;
 
     public CrimeVideo(long no, LocalDateTime recordedAt, String suspicionVideoPath, String highlightVideoPath, String crimeType, Long criminalStatus) {
@@ -39,5 +43,14 @@ public class CrimeVideo {
         this.highlightVideoPath = highlightVideoPath;
         this.crimeType = crimeType;
         this.criminalStatus = criminalStatus;
+    }
+
+    public static CrimeVideo toCrimeVideo(CrimeVideoDTO dto) {
+        return CrimeVideo.builder()
+                .recordedAt(dto.getRecordedAt())
+                .suspicionVideoPath(dto.getSuspicionVideoPath())
+                .highlightVideoPath(dto.getHighlightVideoPath())
+                .crimeType(dto.getCrimeType())
+                .build();
     }
 }
