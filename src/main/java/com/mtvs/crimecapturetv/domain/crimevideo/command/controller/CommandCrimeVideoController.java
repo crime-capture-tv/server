@@ -17,18 +17,18 @@ public class CommandCrimeVideoController {
 
     private final CommandCrimeVideoService crimeVideoService;
 
-    @PostMapping("/videos")
-    public ResponseEntity<Response<CreateCrimeVideoResponse>> create(@RequestBody CreateCrimeVideoRequest request) {
+    @PostMapping("stores/{storeNo}/videos")
+    public ResponseEntity<Response<CreateCrimeVideoResponse>> create(@RequestParam Long storeNo, @RequestBody CreateCrimeVideoRequest request) {
 
-        CreateCrimeVideoResponse response = crimeVideoService.createCrimeVideo(request);
+        CreateCrimeVideoResponse response = crimeVideoService.createCrimeVideo(storeNo, request);
 
         return ResponseEntity.ok().body(Response.success(response));
     }
 
-    @PutMapping("/videos/{videoNo}")
-    public ResponseEntity<Response<UpdateCriminalStatusResponse>> updateCriminalStatus(@RequestParam Long videoNo, @RequestBody UpdateCriminalStatusRequest request) {
+    @PutMapping("stores/{storeNo}/videos/{videoNo}")
+    public ResponseEntity<Response<UpdateCriminalStatusResponse>> updateCriminalStatus(@RequestParam Long storeNo, @RequestParam Long videoNo, @RequestBody UpdateCriminalStatusRequest request) {
 
-        UpdateCriminalStatusResponse response = crimeVideoService.updateCriminalStatus(videoNo, request);
+        UpdateCriminalStatusResponse response = crimeVideoService.updateCriminalStatus(storeNo, videoNo, request);
 
         return ResponseEntity.ok().body(Response.success(response));
     }

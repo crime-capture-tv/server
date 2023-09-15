@@ -2,6 +2,7 @@ package com.mtvs.crimecapturetv.domain.crimevideo.command.aggregate.entity;
 
 import com.mtvs.crimecapturetv.domain.crimevideo.command.aggregate.dto.CrimeVideoDTO;
 import com.mtvs.crimecapturetv.global.common.entity.BaseEntity;
+import com.mtvs.crimecapturetv.store.command.aggregate.entity.Store;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,16 +37,22 @@ public class CrimeVideo extends BaseEntity {
     private String crimeType;
 
     @Column(name = "criminal_Status")
+
     @ColumnDefault("0")
     private Long criminalStatus;
 
-    public CrimeVideo(long no, LocalDateTime recordedAt, String suspicionVideoPath, String highlightVideoPath, String crimeType, Long criminalStatus) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_no")
+    private Store store;
+
+    public CrimeVideo(long no, LocalDateTime recordedAt, String suspicionVideoPath, String highlightVideoPath, String crimeType, Long criminalStatus, Store store ) {
         this.no = no;
         this.recordedAt = recordedAt;
         this.suspicionVideoPath = suspicionVideoPath;
         this.highlightVideoPath = highlightVideoPath;
         this.crimeType = crimeType;
         this.criminalStatus = criminalStatus;
+        this.store = store;
     }
 
     public static CrimeVideo toCrimeVideo(CrimeVideoDTO dto) {
@@ -54,6 +61,7 @@ public class CrimeVideo extends BaseEntity {
                 .suspicionVideoPath(dto.getSuspicionVideoPath())
                 .highlightVideoPath(dto.getHighlightVideoPath())
                 .crimeType(dto.getCrimeType())
+                .store(dto.getStore())
                 .build();
     }
 

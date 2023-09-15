@@ -1,5 +1,6 @@
 package com.mtvs.crimecapturetv.domain.crimevideo.command.aggregate.dto;
 
+import com.mtvs.crimecapturetv.store.command.aggregate.entity.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,4 +18,6 @@ public class CrimeVideoDTO {
     private String suspicionVideoPath;
     private String highlightVideoPath;
     private String crimeType;
+    private Store store;
+
 }
