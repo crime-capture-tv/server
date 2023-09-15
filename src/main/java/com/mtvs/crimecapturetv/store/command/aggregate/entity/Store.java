@@ -1,5 +1,6 @@
 package com.mtvs.crimecapturetv.store.command.aggregate.entity;
 
+import com.mtvs.crimecapturetv.global.common.entity.BaseEntity;
 import com.mtvs.crimecapturetv.store.command.aggregate.entity.enumType.StoreType;
 import com.mtvs.crimecapturetv.user.command.aggregate.entity.User;
 import lombok.*;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "Store_TB")
-public class Store {
+public class Store extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +36,7 @@ public class Store {
     private String storePhoneNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "name")
+    @JoinColumn(name = "user_no")
     private User user;
 
 }
