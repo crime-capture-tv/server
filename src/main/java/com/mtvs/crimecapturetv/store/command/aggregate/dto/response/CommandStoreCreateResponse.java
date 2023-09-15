@@ -1,0 +1,35 @@
+package com.mtvs.crimecapturetv.store.command.aggregate.dto.response;
+
+import com.mtvs.crimecapturetv.store.command.aggregate.dto.StoreDTO;
+import com.mtvs.crimecapturetv.store.command.aggregate.entity.enumType.StoreType;
+import com.mtvs.crimecapturetv.user.command.aggregate.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CommandStoreCreateResponse {
+
+    private String storeName;
+    private String storeAddress;
+    private StoreType storeType;
+    private String businessRegistNumber;
+    private String storePhoneNumber;
+    private String userName;
+
+    public static CommandStoreCreateResponse of (StoreDTO storeDTO) {
+        return CommandStoreCreateResponse.builder()
+                .storeName(storeDTO.getStoreName())
+                .storeAddress(storeDTO.getStoreAddress())
+                .storeType(storeDTO.getStoreType())
+                .businessRegistNumber(storeDTO.getBusinessRegistNumber())
+                .storePhoneNumber(storeDTO.getStorePhoneNumber())
+                .userName(storeDTO.getUserName())
+                .build();
+    }
+
+}
