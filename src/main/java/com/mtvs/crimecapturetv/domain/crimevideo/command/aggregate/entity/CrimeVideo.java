@@ -2,7 +2,10 @@ package com.mtvs.crimecapturetv.domain.crimevideo.command.aggregate.entity;
 
 import com.mtvs.crimecapturetv.domain.crimevideo.command.aggregate.dto.CrimeVideoDTO;
 import com.mtvs.crimecapturetv.global.common.entity.BaseEntity;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -52,5 +55,10 @@ public class CrimeVideo extends BaseEntity {
                 .highlightVideoPath(dto.getHighlightVideoPath())
                 .crimeType(dto.getCrimeType())
                 .build();
+    }
+
+    // 유저에 의해 crimeStatus 상태 변경
+    public void updateCriminalStatus(Long criminalStatus) {
+        this.criminalStatus = criminalStatus;
     }
 }
