@@ -75,6 +75,7 @@ public class SecurityConfig {
                             }
                         }
                 )
+                .permitAll()
                 .and()
                 .build();
     }
