@@ -30,7 +30,14 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: create
-    defer-datasource-initialization: true #ddl-auto 뭐가 호완이 안되서 설정한거
+    defer-datasource-initialization: true #dml.sql을 실행하기위해 true설정
+  sql:
+    init:
+      mode: always
+      continue-on-error: false
+      data-locations: classpath:sql/dml.sql
+      platform: mysql
+      encoding: UTF-8
   # file upload
   servlet:
     multipart:
