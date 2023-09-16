@@ -39,4 +39,12 @@ public class Store extends BaseEntity {
     @JoinColumn(name = "user_no")
     private User user;
 
+    public void modifyStore(String storeName, String storeAddress, String storePhoneNumber) {
+        this.storeName = storeName;
+        this.storeAddress = storeAddress;
+        this.storePhoneNumber = storePhoneNumber;
+    }
+
+
+
 }
