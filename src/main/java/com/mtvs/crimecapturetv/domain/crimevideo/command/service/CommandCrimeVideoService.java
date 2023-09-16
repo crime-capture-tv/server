@@ -71,9 +71,8 @@ public class CommandCrimeVideoService {
     }
 
     @Transactional
-    public UpdateCriminalStatusResponse updateCriminalStatus(Long storeNo, Long videoNo, UpdateCriminalStatusRequest request) {
-        // 해당 점포가 존재하는지 확인
-        validateStoreByNo(storeNo);
+    public UpdateCriminalStatusResponse updateCriminalStatus(Long videoNo, UpdateCriminalStatusRequest request) {
+
         // 해당 영상이 존재하는지 확인
         CrimeVideo crimeVideo = validateCrimeVideoByNo(videoNo);
 
@@ -84,6 +83,31 @@ public class CommandCrimeVideoService {
         UpdateCriminalStatusResponse response = UpdateCriminalStatusResponse.of(crimeVideo);
 
         return response;
+    }
+
+    @Transactional
+    public DeleteCrimeVideoResponse deleteCrimeVideo(Long videoNo) {
+        // 해당 영상이 있는지 확인
+        CrimeVideo crimeVideo = validateCrimeVideoByNo(videoNo);
+        String suspicionVideoPath = crimeVideo.getSuspicionVideoPath();
+        String highlightVideoPath = crimeVideo.getHighlightVideoPath();
+
+        validateFileByPath(highlightVideoPath);
+        validateFileByPath(suspicionVideoPath);
+        log.info("🤖 해당 경로에 파일이 존재합니다. 경로 : {}", suspicionVideoPath);
+        log.info("🤖 해당 경로에 파일이 존재합니다. 경로 : {}", highlightVideoPath);
+
+        crimeVideoRepository.delete(crimeVideo);
+
+        File file = new File(suspicionVideoPath);
+
+        if(file.delete()){
+            log.info("🤖 파일 삭제 성공");
+        } else {
+            throw new AppException(ErrorCode.FILE_DELETE_FAILED);
+        }
+
+        return new DeleteCrimeVideoResponse(crimeVideo.getNo());
     }
 
     private CrimeVideo validateCrimeVideoByNo(Long crimeVideoNo) {
@@ -101,6 +125,5 @@ public class CommandCrimeVideoService {
         if (!file.exists()) {
             throw new AppException(ErrorCode.FILE_NOT_FOUNDED);
         }
-
     }
 }
