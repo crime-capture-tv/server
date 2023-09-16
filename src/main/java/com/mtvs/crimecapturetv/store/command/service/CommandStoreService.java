@@ -65,5 +65,18 @@ public class CommandStoreService {
     }
 
 
+    // 점포 조회
+    public StoreDTO detail(Long id, Long storeNo) {
+
+        User user = commandUserRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
+
+        Store store = commandStoreRepository.findByStoreNo(storeNo)
+                .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUND));
+
+        return StoreDTO.of(store);
+
+    }
+
 
 }

@@ -46,6 +46,13 @@ public class CommandStoreController {
         return ResponseEntity.ok(Response.success(new CommandStoreDeleteResponse("삭제 성공" ,deletedStore)));
     }
 
+    @GetMapping("/{storeNo}")
+    public ResponseEntity<Response<StoreDTO>> detail(@PathVariable Long storeNo, Long id) {
+        StoreDTO storeDTO = commandStoreService.detail(id, storeNo);
+        return ResponseEntity.ok(Response.success(storeDTO));
+
+    }
+
 
 
 
