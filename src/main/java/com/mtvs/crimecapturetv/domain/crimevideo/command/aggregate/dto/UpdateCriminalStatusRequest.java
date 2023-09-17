@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
-public class CreateCrimeVideoRequest {
+public class UpdateCriminalStatusRequest {
 
-    private String suspicionVideoPath;
+    private Long criminalStatus;
 }
