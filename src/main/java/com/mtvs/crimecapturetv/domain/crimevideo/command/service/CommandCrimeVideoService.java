@@ -9,6 +9,8 @@ import com.mtvs.crimecapturetv.store.command.aggregate.entity.Store;
 import com.mtvs.crimecapturetv.store.command.repository.CommandStoreRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,17 +39,20 @@ public class CommandCrimeVideoService {
         log.info("🤖 찾은 storeNo = {}", store.getStoreNo());
 
         String suspicionVideoPath = request.getSuspicionVideoPath();
-        LocalDateTime recordedAt = request.getRecordedAt();
         log.info("🤖 suspicionVideoPath : {}", suspicionVideoPath);
 
         validateFileByPath(suspicionVideoPath);
 
         URI uri = UriComponentsBuilder
-                .fromUriString("http://192.168.0.14:8000/")
+                //.fromUriString("http://192.168.0.14:8000/")
+                .fromUriString("http://192.168.0.62:8000/classification")
                 .path("")
                 .queryParam("suspicionVideoPath", suspicionVideoPath)
                 .build()
                 .toUri();
+
+        LocalDateTime recordedAt = LocalDateTime.now();
+        log.info("🤖 recordedAt : {}", recordedAt);
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<AiCrimeAnalyzeResponse> result = restTemplate.getForEntity(uri, AiCrimeAnalyzeResponse.class);
@@ -101,13 +106,33 @@ public class CommandCrimeVideoService {
 
         File file = new File(suspicionVideoPath);
 
-        if(file.delete()){
+        if (file.delete()) {
             log.info("🤖 파일 삭제 성공");
         } else {
             throw new AppException(ErrorCode.FILE_DELETE_FAILED);
         }
 
         return new DeleteCrimeVideoResponse(crimeVideo.getNo());
+    }
+
+    public Page<ReadAllCrimeVideoResponse> readCrimeVideoLists(Long criminalStatus, Long storeNo, Pageable pageable) {
+
+        Store store = storeRepository.findById(storeNo)
+                .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUNDED));
+
+        if (criminalStatus == 4) {
+            return crimeVideoRepository.findAllByStore(store, pageable).map(ReadAllCrimeVideoResponse::of);
+        } else {
+            return crimeVideoRepository.findAllByStoreAndCriminalStatus(store, criminalStatus, pageable).map(ReadAllCrimeVideoResponse::of);
+        }
+    }
+
+    // 파일 경로에서 파일명만 추출하는 로직
+    public String getFileName(String filePath) {
+
+        String[] pathSegment = filePath.split("\\\\");
+
+        return pathSegment[pathSegment.length - 1];
     }
 
     private CrimeVideo validateCrimeVideoByNo(Long crimeVideoNo) {
