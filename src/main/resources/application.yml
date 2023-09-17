@@ -46,7 +46,7 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
-    password: 1234
+    password: ${SPRING_REDIS_PASSWORD}
 
 # Email 인증
 mail:
@@ -65,8 +65,8 @@ mail:
 
 # admin 구글 계정
 AdminMail:
-  id: crimecapturetv@gmail.com
-  password: ospkxlmqhldoxanz
+  id: ${MAIL_ID}
+  password: ${MAIL_PASSWORD}
 
 mybatis:
   mapper-locations: mappers/**/*.xml
