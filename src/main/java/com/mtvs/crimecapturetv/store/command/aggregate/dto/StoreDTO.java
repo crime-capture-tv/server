@@ -19,7 +19,7 @@ public class StoreDTO {
     private StoreType storeType;            // 점포 유형
     private String businessRegistNumber;    // 사업자 등록 번호
     private String storePhoneNumber;        // 점포 전화 번호
-    private String userName;                // 회원명(점주)
+    private Long userNo;                // 회원명(점주)
 
     public static StoreDTO of(Store store) {
         return StoreDTO.builder()
@@ -29,7 +29,7 @@ public class StoreDTO {
                 .storeType(store.getStoreType())
                 .businessRegistNumber(store.getBusinessRegistNumber())
                 .storePhoneNumber(store.getStorePhoneNumber())
-                .userName(store.getUser().getName())
+                .userNo(store.getUser().getNo())
                 .build();
     }
 
