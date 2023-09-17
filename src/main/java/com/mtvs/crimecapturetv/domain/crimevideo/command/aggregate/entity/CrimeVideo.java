@@ -37,7 +37,6 @@ public class CrimeVideo extends BaseEntity {
     private String crimeType;
 
     @Column(name = "criminal_Status")
-
     @ColumnDefault("0")
     private Long criminalStatus;
 
