@@ -31,10 +31,10 @@ public class EmailConfig {
     @Value("${mail.smtp.socketFactory.fallback}")
     private boolean fallback;
 
-    @Value("${AdminMail.id}")
+    @Value("${MAIL_ID}")
     private String id;
 
-    @Value("${AdminMail.password}")
+    @Value("${MAIL.PASSWORD}")
     private String password;
 
     @Bean
