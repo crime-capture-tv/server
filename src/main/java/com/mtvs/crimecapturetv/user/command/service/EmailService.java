@@ -1,16 +1,22 @@
 package com.mtvs.crimecapturetv.user.command.service;
 
+import com.mtvs.crimecapturetv.exception.AppException;
+import com.mtvs.crimecapturetv.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.time.Duration;
 import java.util.Random;
 
@@ -24,6 +30,34 @@ public class EmailService {
 
     private static final String ePw = createkey();
 
+    public void sendEmailWithAttachment(String userEmail, String highlightVideoPath) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setFrom("crimecapturetv@gmail.com");
+        //helper.setTo(userEmail);
+        helper.setTo("taegeun0525@gmail.com");
+        helper.setSubject("동영상 이메일");
+        helper.setText("동영상을 확인하세요!");
+
+        String[] pathSegment = highlightVideoPath.split("\\\\");
+        log.info("🤖 highlightVideoPath : {}", highlightVideoPath);
+        String fileName = pathSegment[pathSegment.length - 1];
+
+        // 동영상 파일 첨부
+        FileSystemResource videoFile = new FileSystemResource(new File(highlightVideoPath));
+        helper.addAttachment(fileName, videoFile);
+
+        try {
+            javaMailSender.send(message);
+        } catch (MailException e) {
+            e.printStackTrace();
+            throw new AppException(ErrorCode.EMAIL_CAN_NOT_SEND);
+        }
+
+    }
+
     public static String createkey() {
 
         StringBuffer key = new StringBuffer();
@@ -34,11 +68,11 @@ public class EmailService {
 
             switch (index) {
                 case 0:
-                    key.append((char) ((int)(random.nextInt(26)) + 97));
+                    key.append((char) ((int) (random.nextInt(26)) + 97));
                     // a ~ z (ex. 1+97=98 -> (char)98 = 'b')
                     break;
                 case 1:
-                    key.append((char) ((int)(random.nextInt(26)) + 65));
+                    key.append((char) ((int) (random.nextInt(26)) + 65));
                     // A~Z
                     break;
                 case 2:
@@ -80,13 +114,13 @@ public class EmailService {
     }
 
     // 회원 가입 인증 메시지 발송
-    public String sendLoginAuthMessage(String to) throws Exception{
+    public String sendLoginAuthMessage(String to) throws Exception {
 
         MimeMessage message = createMessage(to);
 
         try {
             javaMailSender.send(message);
-        }catch (MailException e) {
+        } catch (MailException e) {
             e.printStackTrace();
             throw new IllegalArgumentException();
         }
@@ -96,7 +130,6 @@ public class EmailService {
     }
 
 
-
     // Redis
     // 인증 번호 확인
     public String getData(String key) {
@@ -104,7 +137,7 @@ public class EmailService {
         return valueOperations.get(key);
     }
 
-    public void setData(String key, String value){
+    public void setData(String key, String value) {
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         valueOperations.set(key, value);
     }

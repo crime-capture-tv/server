@@ -7,6 +7,7 @@ import com.mtvs.crimecapturetv.exception.AppException;
 import com.mtvs.crimecapturetv.exception.ErrorCode;
 import com.mtvs.crimecapturetv.store.command.aggregate.entity.Store;
 import com.mtvs.crimecapturetv.store.command.repository.CommandStoreRepository;
+import com.mtvs.crimecapturetv.user.command.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.mail.MessagingException;
 import java.io.File;
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -29,10 +31,11 @@ public class CommandCrimeVideoService {
 
     private final CommandCrimeVideoRepository crimeVideoRepository;
     private final CommandStoreRepository storeRepository;
+    private final EmailService emailService;
 
 
     @Transactional
-    public CreateCrimeVideoResponse createCrimeVideo(Long storeNo, CreateCrimeVideoRequest request) {
+    public CreateCrimeVideoResponse createCrimeVideo(Long storeNo, CreateCrimeVideoRequest request) throws MessagingException {
 
         // 매장 No으로 매장 조회 없으면 STORE_NOT_FOUNDED 에러 발생
         Store store = validateStoreByNo(storeNo);
@@ -65,8 +68,15 @@ public class CommandCrimeVideoService {
                 .store(store)
                 .build();
 
+        String userEmail = store.getUser().getEmail();
+        String highlightVideoPath = result.getBody().getHighlightVideoPath();
+
         CrimeVideo crimeVideo = crimeVideoRepository.save(CrimeVideo.toCrimeVideo(crimeVideoDTO));
         log.info("🤖 crimeVideo storeNo : {}", crimeVideo.getStore().getStoreNo());
+
+
+        emailService.sendEmailWithAttachment(userEmail, highlightVideoPath);
+        log.info("🤖 하이라이트 영상이 발송되었습니다.");
 
         return CreateCrimeVideoResponse.builder()
                 .crimeType(crimeVideo.getCrimeType())
