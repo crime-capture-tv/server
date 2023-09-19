@@ -43,7 +43,7 @@ public class CommandStoreService {
         Store store = commandStoreRepository.findByStoreNo(storeNo)
                 .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUND));
 
-        store.modifyStore(commandStoreUpdateRequest.getStoreName(), commandStoreUpdateRequest.getStoreAddress(), commandStoreUpdateRequest.getStorePhoneNumber());
+        store.modifyStore(commandStoreUpdateRequest.getStoreName(), commandStoreUpdateRequest.getZipcode(), commandStoreUpdateRequest.getStreetAddress(), commandStoreUpdateRequest.getDetailAddress(), commandStoreUpdateRequest.getStorePhoneNumber());
 
 //        Store savedStore = commandStoreRepository.save(commandStoreUpdateRequest.toEntity(user));
         commandStoreRepository.save(store);

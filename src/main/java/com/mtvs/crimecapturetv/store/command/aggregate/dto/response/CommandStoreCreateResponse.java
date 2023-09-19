@@ -14,7 +14,9 @@ import lombok.NoArgsConstructor;
 public class CommandStoreCreateResponse {
 
     private String storeName;
-    private String storeAddress;
+    private String zipcode;
+    private String streetAddress;
+    private String detailAddress;
     private StoreType storeType;
     private String businessRegistNumber;
     private String storePhoneNumber;
@@ -23,7 +25,9 @@ public class CommandStoreCreateResponse {
     public static CommandStoreCreateResponse of (StoreDTO storeDTO) {
         return CommandStoreCreateResponse.builder()
                 .storeName(storeDTO.getStoreName())
-                .storeAddress(storeDTO.getStoreAddress())
+                .zipcode(storeDTO.getZipcode())
+                .streetAddress(storeDTO.getStreetAddress())
+                .detailAddress(storeDTO.getDetailAddress())
                 .storeType(storeDTO.getStoreType())
                 .businessRegistNumber(storeDTO.getBusinessRegistNumber())
                 .storePhoneNumber(storeDTO.getStorePhoneNumber())
