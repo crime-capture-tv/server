@@ -44,7 +44,7 @@ public class CommandStoreService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
 
         Store store = commandStoreRepository.findByStoreNo(storeNo)
-                .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUNDED));
 
         store.modifyStore(commandStoreUpdateRequest.getStoreName(), commandStoreUpdateRequest.getZipcode(), commandStoreUpdateRequest.getStreetAddress(), commandStoreUpdateRequest.getDetailAddress(), commandStoreUpdateRequest.getStorePhoneNumber());
 
@@ -61,7 +61,7 @@ public class CommandStoreService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
 
         Store store = commandStoreRepository.findByStoreNo(storeNo)
-                .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUNDED));
 
         commandStoreRepository.deleteByStoreNo(storeNo);
         return storeNo;
@@ -75,7 +75,7 @@ public class CommandStoreService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
 
         Store store = commandStoreRepository.findByStoreNo(storeNo)
-                .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUNDED));
 
         return StoreDTO.of(store);
 
