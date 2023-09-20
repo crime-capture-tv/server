@@ -7,11 +7,19 @@ import com.mtvs.crimecapturetv.store.command.aggregate.dto.request.CommandStoreD
 import com.mtvs.crimecapturetv.store.command.aggregate.dto.request.CommandStoreUpdateRequest;
 import com.mtvs.crimecapturetv.store.command.aggregate.dto.response.CommandStoreCreateResponse;
 import com.mtvs.crimecapturetv.store.command.aggregate.dto.response.CommandStoreDeleteResponse;
+import com.mtvs.crimecapturetv.store.command.aggregate.dto.response.CommandStoreListResponse;
 import com.mtvs.crimecapturetv.store.command.aggregate.dto.response.CommandStoreUpdateResponse;
 import com.mtvs.crimecapturetv.store.command.service.CommandStoreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+
 
 @RestController
 @RequestMapping("/api/v1/store")
@@ -52,6 +60,15 @@ public class CommandStoreController {
         return ResponseEntity.ok(Response.success(storeDTO));
 
     }
+
+    @GetMapping("/list")
+    public String listStore(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable, Model model) {
+        Page<CommandStoreListResponse> storeList = commandStoreService.list(pageable);
+        model.addAttribute("store", storeList);
+        return "stores/list";
+    }
+
+
 
 
 
