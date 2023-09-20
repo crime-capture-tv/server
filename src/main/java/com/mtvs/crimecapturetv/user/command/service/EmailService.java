@@ -1,18 +1,23 @@
 package com.mtvs.crimecapturetv.user.command.service;
 
 import com.mtvs.crimecapturetv.exception.AppException;
+import com.mtvs.crimecapturetv.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
+import java.io.File;
 import java.time.Duration;
 import java.util.Random;
 
@@ -199,6 +204,34 @@ public class EmailService {
         }
 
         return result;
+    }
+
+    public void sendEmailWithAttachment(String userEmail, String highlightVideoPath) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setFrom("crimecapturetv@gmail.com");
+        //helper.setTo(userEmail);
+        helper.setTo("taegeun0525@gmail.com");
+        helper.setSubject("동영상 이메일");
+        helper.setText("동영상을 확인하세요!");
+
+        String[] pathSegment = highlightVideoPath.split("\\\\");
+        log.info("🤖 highlightVideoPath : {}", highlightVideoPath);
+        String fileName = pathSegment[pathSegment.length - 1];
+
+        // 동영상 파일 첨부
+        FileSystemResource videoFile = new FileSystemResource(new File(highlightVideoPath));
+        helper.addAttachment(fileName, videoFile);
+
+        try {
+            javaMailSender.send(message);
+        } catch (MailException e) {
+            e.printStackTrace();
+            throw new AppException(ErrorCode.EMAIL_CAN_NOT_SEND);
+        }
+
     }
 
 
