@@ -29,13 +29,13 @@ spring:
         show_sql: true
         format_sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     defer-datasource-initialization: true #dml.sql을 실행하기위해 true설정
   sql:
     init:
       mode: always
       continue-on-error: false
-      data-locations: classpath:sql/dml.sql
+#      data-locations: classpath:sql/dml.sql
       platform: mysql
       encoding: UTF-8
   # file upload

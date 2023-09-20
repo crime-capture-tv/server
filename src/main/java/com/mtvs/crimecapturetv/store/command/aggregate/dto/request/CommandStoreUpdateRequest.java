@@ -14,13 +14,17 @@ import lombok.Setter;
 public class CommandStoreUpdateRequest {
 
     private String storeName;
-    private String storeAddress;
+    private String zipcode;
+    private String streetAddress;
+    private String detailAddress;
     private String storePhoneNumber;
 
     public Store toEntity(User user) {
         return Store.builder()
                 .storeName(this.storeName)
-                .storeAddress(this.storeAddress)
+                .zipcode(this.zipcode)
+                .streetAddress(this.streetAddress)
+                .detailAddress(this.detailAddress)
                 .storePhoneNumber(this.storePhoneNumber)
                 .user(user)
                 .build();
