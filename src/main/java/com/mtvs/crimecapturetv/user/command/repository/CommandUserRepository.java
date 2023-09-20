@@ -7,6 +7,9 @@ import java.util.Optional;
 
 public interface CommandUserRepository extends JpaRepository<User, Long> {
 
-    boolean existsById(String id);
     Optional<User> findById(String id);
+    Optional<User> findByEmail(String email);
+    boolean existsById(String id);
+    boolean existsByEmail(String email);
+    boolean existsByIdAndEmail(String id, String email);
 }

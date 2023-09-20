@@ -24,6 +24,7 @@ public class UserDetail implements UserDetails {
     private Long no;
     private String id;  // 로그인에 사용할 ID
     private String password;  // 비밀번호
+    private String name;  // 유저 이름
     private String role;      // 권한
 
     // 권한 부여
@@ -90,6 +91,7 @@ public class UserDetail implements UserDetails {
                 .no(user.getNo())
                 .id(user.getId())
                 .password(user.getPassword())
+                .name(user.getName())
                 .role(user.getRole().name())
                 .build();
     }
