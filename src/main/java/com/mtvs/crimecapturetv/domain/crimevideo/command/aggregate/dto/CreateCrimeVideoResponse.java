@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 public class CreateCrimeVideoResponse {
 
     private String crimeType;
-    private String suspicionVideoPath;
+    private String suspicionVideoPath01;
+    private String suspicionVideoPath02;
     private String highlightVideoPath;
 
 }

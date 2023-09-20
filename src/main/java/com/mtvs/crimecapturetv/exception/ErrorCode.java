@@ -16,6 +16,7 @@ public enum ErrorCode {
     AI_INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "AI 서버와 통신이 되지 않습니다."),
     FILE_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 경로의 파일을 찾을 수 없습니다."),
     FILE_DELETE_FAILED(HttpStatus.NOT_ACCEPTABLE, "해당 파일을 삭제할 수 없습니다."),
+    EMAIL_CAN_NOT_SEND(HttpStatus.INTERNAL_SERVER_ERROR, "Email 발송을 실패했습니다."),
     NOTIFICATION_NOT_FOUNDED(HttpStatus.NOT_FOUND, "알림을 찾을 수 없습니다"),
     INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "패스워드가 잘못되었습니다."),
     BOARD_NOT_FOUNDED(HttpStatus.NOT_FOUND, "해당 글이 없습니다.");

@@ -11,6 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+
 
 @RestController
 @Slf4j
@@ -21,9 +23,10 @@ public class CommandCrimeVideoController {
     private final CommandCrimeVideoService crimeVideoService;
 
     @PostMapping("/stores/{storeNo}/videos")
-    public ResponseEntity<Response<CreateCrimeVideoResponse>> create(@RequestParam Long storeNo, @RequestBody CreateCrimeVideoRequest request) {
+    public ResponseEntity<Response<CreateCrimeVideoResponse>> create(@RequestParam Long storeNo, @RequestBody CreateCrimeVideoRequest request) throws MessagingException {
 
-        log.info("🤖 request : {}", request.getSuspicionVideoPath());
+        log.info("🤖 request : {}", request);
+
         CreateCrimeVideoResponse response = crimeVideoService.createCrimeVideo(storeNo, request);
 
         return ResponseEntity.ok().body(Response.success(response));

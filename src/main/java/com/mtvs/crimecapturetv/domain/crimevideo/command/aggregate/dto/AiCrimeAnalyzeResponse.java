@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 public class AiCrimeAnalyzeResponse {
 
-    private String suspicionVideoPath;
     private String highlightVideoPath;
     private String crimeType;
+
 }

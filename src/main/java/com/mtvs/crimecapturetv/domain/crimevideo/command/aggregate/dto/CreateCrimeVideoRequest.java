@@ -11,5 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CreateCrimeVideoRequest {
 
-    private String suspicionVideoPath;
+    private String suspicionVideoPath01;
+    private String suspicionVideoPath02;
+    private String stayStartTime;
+    private String stayEndTime;
+
 }
