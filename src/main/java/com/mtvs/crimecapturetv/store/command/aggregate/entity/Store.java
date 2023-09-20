@@ -26,10 +26,10 @@ public class Store extends BaseEntity {
     @Column(name = "zipcode")
     private String zipcode;
 
-    @Column(name = "streetAddress")
+    @Column(name = "street_address")
     private String streetAddress;
 
-    @Column(name = "detailAddress")
+    @Column(name = "detail_address")
     private String detailAddress;
 
     @Enumerated(EnumType.STRING)
