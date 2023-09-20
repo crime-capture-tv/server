@@ -37,13 +37,16 @@ dependencies {
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
 
     // Security
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.7.5'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-test'
 
     // email
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     // 인증 번호 유효 시간 저장
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // validation
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.6'
 }
 
 tasks.named('test') {
