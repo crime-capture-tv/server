@@ -1,22 +1,18 @@
 package com.mtvs.crimecapturetv.user.command.service;
 
 import com.mtvs.crimecapturetv.exception.AppException;
-import com.mtvs.crimecapturetv.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
+import javax.transaction.Transactional;
 import java.time.Duration;
 import java.util.Random;
 
@@ -27,38 +23,11 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
     private final StringRedisTemplate redisTemplate;
+    private final CommandUserService userService;
 
-    private static final String ePw = createkey();
+    private final String ePw = createkey();
 
-    public void sendEmailWithAttachment(String userEmail, String highlightVideoPath) throws MessagingException {
-        MimeMessage message = javaMailSender.createMimeMessage();
-
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-        helper.setFrom("crimecapturetv@gmail.com");
-        //helper.setTo(userEmail);
-        helper.setTo("taegeun0525@gmail.com");
-        helper.setSubject("동영상 이메일");
-        helper.setText("동영상을 확인하세요!");
-
-        String[] pathSegment = highlightVideoPath.split("\\\\");
-        log.info("🤖 highlightVideoPath : {}", highlightVideoPath);
-        String fileName = pathSegment[pathSegment.length - 1];
-
-        // 동영상 파일 첨부
-        FileSystemResource videoFile = new FileSystemResource(new File(highlightVideoPath));
-        helper.addAttachment(fileName, videoFile);
-
-        try {
-            javaMailSender.send(message);
-        } catch (MailException e) {
-            e.printStackTrace();
-            throw new AppException(ErrorCode.EMAIL_CAN_NOT_SEND);
-        }
-
-    }
-
-    public static String createkey() {
+    public String createkey() {
 
         StringBuffer key = new StringBuffer();
         Random random = new Random();
@@ -68,11 +37,11 @@ public class EmailService {
 
             switch (index) {
                 case 0:
-                    key.append((char) ((int) (random.nextInt(26)) + 97));
+                    key.append((char) ((int)(random.nextInt(26)) + 97));
                     // a ~ z (ex. 1+97=98 -> (char)98 = 'b')
                     break;
                 case 1:
-                    key.append((char) ((int) (random.nextInt(26)) + 65));
+                    key.append((char) ((int)(random.nextInt(26)) + 65));
                     // A~Z
                     break;
                 case 2:
@@ -82,6 +51,9 @@ public class EmailService {
             }
         }
 
+        System.out.println("인증키: "
+                + key.toString());
+        System.out.println("인증키 객체 주소: " + System.identityHashCode(key));
         return key.toString();
     }
 
@@ -113,14 +85,69 @@ public class EmailService {
         return message;
     }
 
+    // 아이디 찾기 이메일
+    private MimeMessage foundIdMessage(String to, String id) throws Exception {
+        MimeMessage message = javaMailSender.createMimeMessage();
+
+        message.addRecipients(Message.RecipientType.TO, to);
+        message.setSubject("Crime Capture TV 요청하신 아이디 정보 보내드립니다.");
+
+        String msgg = "";
+        msgg += "<div style='margin:100px;'>";
+        msgg += "<h1> 안녕하세요 Crime Capture TV 입니다. </h1>";
+        msgg += "<br>";
+        msgg += "<p>아래의 아이디를 확인해주세요<p>";
+        msgg += "<br>";
+        msgg += "<p>감사합니다!<p>";
+        msgg += "<br>";
+        msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
+        msgg += "<h3 style='color:blue;'>회원님의 Crime Capture TV 아이디 입니다.</h3>";
+        msgg += "<div style='font-size:130%'>";
+        msgg += "아이디 : <strong>";
+        msgg += id + "</strong><div><br/> ";
+        msgg += "</div>";
+        message.setText(msgg, "utf-8", "html");//내용
+        message.setFrom(new InternetAddress("crimecapturetv@gmail.com", "Crime Capture TV"));//보내는 사람
+
+        return message;
+    }
+
+    // 비밀번호 찾기 이메일
+    private MimeMessage foundPasswordMessage(String to) throws Exception {
+        MimeMessage message = javaMailSender.createMimeMessage();
+
+        message.addRecipients(Message.RecipientType.TO, to);
+        message.setSubject("Crime Capture TV 비밀번호 변경 안내");
+
+        String msgg = "";
+        msgg += "<div style='margin:100px;'>";
+        msgg += "<h1> 안녕하세요 Crime Capture TV 입니다. </h1>";
+        msgg += "<br>";
+        msgg += "<p>새로운 비밀번호로 로그인 해주세요<p>";
+        msgg += "<br>";
+        msgg += "<p>감사합니다!<p>";
+        msgg += "<br>";
+        msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
+        msgg += "<h3 style='color:blue;'>새로운 비밀번호 입니다.</h3>";
+        msgg += "<div style='font-size:130%'>";
+        msgg += "비밀번호 : <strong>";
+        msgg += ePw + "</strong><div><br/> ";
+        msgg += "</div>";
+        message.setText(msgg, "utf-8", "html");//내용
+        message.setFrom(new InternetAddress("crimecapturetv@gmail.com", "Crime Capture TV"));//보내는 사람
+
+        return message;
+    }
+
     // 회원 가입 인증 메시지 발송
-    public String sendLoginAuthMessage(String to) throws Exception {
+    @Transactional
+    public String sendLoginAuthMessage(String to) throws Exception{
 
         MimeMessage message = createMessage(to);
 
         try {
             javaMailSender.send(message);
-        } catch (MailException e) {
+        }catch (MailException e) {
             e.printStackTrace();
             throw new IllegalArgumentException();
         }
@@ -128,6 +155,52 @@ public class EmailService {
 
         return "인증 메일이 발송되었습니다.";
     }
+
+    // 아이디 찾기 아이디 메시지 발송
+    public String sendFoundIdMessage(String email) throws Exception {
+        String result = "메일로 아이디를 전송했습니다.";
+        String id = userService.findIdByEmail(email);
+        MimeMessage message = foundIdMessage(email, id);
+        try {    //예외처리
+            javaMailSender.send(message);
+        } catch (MailException es) {
+            es.printStackTrace();
+            throw new IllegalArgumentException();
+        } catch (AppException e) {
+            result = e.getMessage();
+        } catch (Exception e) {
+            result = "메일 전송에 실패하였습니다.";
+        }
+        return result;
+    }
+
+    // 비밀번호 찾기 새로운 비밀번호 메시지 발송
+    public String sendFoundPasswordMessage(String email, String id) throws Exception {
+        String result = "메일로 새로운 비밀번호를 전송했습니다";
+        String foundUserId = userService.findIdByEmail(email);
+        if (!id.equals(foundUserId)) {
+            result = "아이디에 해당하는 이메일이 없습니다.";
+        } else {
+            String newPassword = ePw;
+            userService.changePassword(foundUserId, newPassword);
+            MimeMessage message = foundPasswordMessage(email);
+
+            try {    //예외처리
+                javaMailSender.send(message);
+            } catch (MailException es) {
+                es.printStackTrace();
+                throw new IllegalArgumentException();
+            } catch (AppException e) {
+                result = e.getMessage();
+            } catch (Exception e) {
+                result = "메일 전송에 실패하였습니다.";
+            }
+            setDataExpire(ePw, email, 60 * 5L);
+        }
+
+        return result;
+    }
+
 
 
     // Redis
@@ -137,7 +210,7 @@ public class EmailService {
         return valueOperations.get(key);
     }
 
-    public void setData(String key, String value) {
+    public void setData(String key, String value){
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         valueOperations.set(key, value);
     }

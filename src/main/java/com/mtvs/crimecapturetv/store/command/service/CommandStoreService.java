@@ -6,11 +6,14 @@ import com.mtvs.crimecapturetv.store.command.aggregate.dto.StoreDTO;
 import com.mtvs.crimecapturetv.store.command.aggregate.dto.request.CommandStoreCreateRequest;
 import com.mtvs.crimecapturetv.store.command.aggregate.dto.request.CommandStoreDeleteRequest;
 import com.mtvs.crimecapturetv.store.command.aggregate.dto.request.CommandStoreUpdateRequest;
+import com.mtvs.crimecapturetv.store.command.aggregate.dto.response.CommandStoreListResponse;
 import com.mtvs.crimecapturetv.store.command.aggregate.entity.Store;
 import com.mtvs.crimecapturetv.store.command.repository.CommandStoreRepository;
 import com.mtvs.crimecapturetv.user.command.aggregate.entity.User;
 import com.mtvs.crimecapturetv.user.command.repository.CommandUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,9 +44,9 @@ public class CommandStoreService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
 
         Store store = commandStoreRepository.findByStoreNo(storeNo)
-                .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUNDED));
 
-        store.modifyStore(commandStoreUpdateRequest.getStoreName(), commandStoreUpdateRequest.getStoreAddress(), commandStoreUpdateRequest.getStorePhoneNumber());
+        store.modifyStore(commandStoreUpdateRequest.getStoreName(), commandStoreUpdateRequest.getZipcode(), commandStoreUpdateRequest.getStreetAddress(), commandStoreUpdateRequest.getDetailAddress(), commandStoreUpdateRequest.getStorePhoneNumber());
 
 //        Store savedStore = commandStoreRepository.save(commandStoreUpdateRequest.toEntity(user));
         commandStoreRepository.save(store);
@@ -58,7 +61,7 @@ public class CommandStoreService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
 
         Store store = commandStoreRepository.findByStoreNo(storeNo)
-                .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUNDED));
 
         commandStoreRepository.deleteByStoreNo(storeNo);
         return storeNo;
@@ -72,10 +75,17 @@ public class CommandStoreService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUNDED));
 
         Store store = commandStoreRepository.findByStoreNo(storeNo)
-                .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.STORE_NOT_FOUNDED));
 
         return StoreDTO.of(store);
 
+    }
+
+    // 매장 리스트
+    public Page<CommandStoreListResponse> list(Pageable pageable) {
+        Page<Store> stores = commandStoreRepository.findAll(pageable);
+
+        return CommandStoreListResponse.toDtoList(stores);
     }
 
 

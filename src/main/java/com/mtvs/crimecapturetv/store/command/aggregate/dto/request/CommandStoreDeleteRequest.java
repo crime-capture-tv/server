@@ -16,7 +16,9 @@ import lombok.Setter;
 public class CommandStoreDeleteRequest {
 
     private String storeName;
-    private String storeAddress;
+    private String zipcode;
+    private String streetAddress;
+    private String detailAddress;
     private StoreType storeType;
     private String businessRegistNumber;
     private String storePhoneNumber;
@@ -25,7 +27,9 @@ public class CommandStoreDeleteRequest {
     public Store toEntity(User user) {
         return Store.builder()
                 .storeName(this.storeName)
-                .storeAddress(this.storeAddress)
+                .zipcode(this.zipcode)
+                .streetAddress(this.streetAddress)
+                .detailAddress(this.detailAddress)
                 .storeType(this.storeType)
                 .businessRegistNumber(this.businessRegistNumber)
                 .storePhoneNumber(this.storePhoneNumber)

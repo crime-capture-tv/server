@@ -23,8 +23,14 @@ public class Store extends BaseEntity {
     @Column(name = "store_name")
     private String storeName;
 
-    @Column(name = "store_address")
-    private String storeAddress;
+    @Column(name = "zipcode")
+    private String zipcode;
+
+    @Column(name = "streetAddress")
+    private String streetAddress;
+
+    @Column(name = "detailAddress")
+    private String detailAddress;
 
     @Enumerated(EnumType.STRING)
     private StoreType storeType;
@@ -39,9 +45,11 @@ public class Store extends BaseEntity {
     @JoinColumn(name = "user_no")
     private User user;
 
-    public void modifyStore(String storeName, String storeAddress, String storePhoneNumber) {
+    public void modifyStore(String storeName, String zipcode, String streetAddress, String detailAddress, String storePhoneNumber) {
         this.storeName = storeName;
-        this.storeAddress = storeAddress;
+        this.zipcode = zipcode;
+        this.streetAddress = streetAddress;
+        this.detailAddress = detailAddress;
         this.storePhoneNumber = storePhoneNumber;
     }
 
