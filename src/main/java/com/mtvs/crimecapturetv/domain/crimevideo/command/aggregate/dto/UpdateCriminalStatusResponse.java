@@ -12,14 +12,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UpdateCriminalStatusResponse {
     private Long crimeVideoNo;
-    private String suspicionVideoPath;
+    private String suspicionVideoPath01;
+    private String suspicionVideoPath02;
     private String highlightVideoPath;
     private Long criminalStatus;
 
     public static UpdateCriminalStatusResponse of(CrimeVideo crimeVideo) {
         return UpdateCriminalStatusResponse.builder()
                 .crimeVideoNo(crimeVideo.getNo())
-                .suspicionVideoPath(crimeVideo.getSuspicionVideoPath())
+                .suspicionVideoPath01(crimeVideo.getSuspicionVideoPath01())
+                .suspicionVideoPath02(crimeVideo.getSuspicionVideoPath02())
                 .highlightVideoPath(crimeVideo.getHighlightVideoPath())
                 .criminalStatus(crimeVideo.getCriminalStatus())
                 .build();

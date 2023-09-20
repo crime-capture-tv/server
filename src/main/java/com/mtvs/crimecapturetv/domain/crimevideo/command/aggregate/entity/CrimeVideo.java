@@ -24,17 +24,20 @@ public class CrimeVideo extends BaseEntity {
     @Column(name = "crime_video_no")
     private long no;
 
+    @Column(name = "suspicion_video_path_01")
+    private String suspicionVideoPath01;
+
+    @Column(name = "suspicion_video_path_02")
+    private String suspicionVideoPath02;
+
     @Column(name = "recorded_at")
     private LocalDateTime recordedAt;
 
-    @Column(name = "suspicion_video_path")
-    private String suspicionVideoPath;
+    @Column(name = "crime_type")
+    private String crimeType;
 
     @Column(name = "highlight_video_path")
     private String highlightVideoPath;
-
-    @Column(name = "crime_type")
-    private String crimeType;
 
     @Column(name = "criminal_Status")
     @ColumnDefault("0")
@@ -44,20 +47,21 @@ public class CrimeVideo extends BaseEntity {
     @JoinColumn(name = "store_no")
     private Store store;
 
-    public CrimeVideo(long no, LocalDateTime recordedAt, String suspicionVideoPath, String highlightVideoPath, String crimeType, Long criminalStatus, Store store ) {
+    public CrimeVideo(long no, String suspicionVideoPath01, String suspicionVideoPath02, LocalDateTime recordedAt, String crimeType, String highlightVideoPath, Long criminalStatus, Store store) {
         this.no = no;
+        this.suspicionVideoPath01 = suspicionVideoPath01;
+        this.suspicionVideoPath02 = suspicionVideoPath02;
         this.recordedAt = recordedAt;
-        this.suspicionVideoPath = suspicionVideoPath;
-        this.highlightVideoPath = highlightVideoPath;
         this.crimeType = crimeType;
+        this.highlightVideoPath = highlightVideoPath;
         this.criminalStatus = criminalStatus;
         this.store = store;
     }
 
     public static CrimeVideo toCrimeVideo(CrimeVideoDTO dto) {
         return CrimeVideo.builder()
-                .recordedAt(dto.getRecordedAt())
-                .suspicionVideoPath(dto.getSuspicionVideoPath())
+                .suspicionVideoPath01(dto.getSuspicionVideoPath01())
+                .suspicionVideoPath02(dto.getSuspicionVideoPath02())
                 .highlightVideoPath(dto.getHighlightVideoPath())
                 .crimeType(dto.getCrimeType())
                 .store(dto.getStore())

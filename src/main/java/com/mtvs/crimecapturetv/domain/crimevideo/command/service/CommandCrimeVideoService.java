@@ -22,6 +22,8 @@ import javax.mail.MessagingException;
 import java.io.File;
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 @Service
 @RequiredArgsConstructor
@@ -41,46 +43,69 @@ public class CommandCrimeVideoService {
         Store store = validateStoreByNo(storeNo);
         log.info("🤖 찾은 storeNo = {}", store.getStoreNo());
 
-        String suspicionVideoPath = request.getSuspicionVideoPath();
-        log.info("🤖 suspicionVideoPath : {}", suspicionVideoPath);
+        String suspicionVideoPath01 = request.getSuspicionVideoPath01();
+        String suspicionVideoPath02 = request.getSuspicionVideoPath02();
 
-        validateFileByPath(suspicionVideoPath);
+        log.info("🤖 suspicionVideoPath01 : {} \n 🤖 suspicionVideoPath02 : {}", suspicionVideoPath01, suspicionVideoPath02);
 
+        validateFileByPath(suspicionVideoPath01);
+        log.info("🤖 01번 CCTV 영상파일이 존재합니다.");
+        validateFileByPath(suspicionVideoPath02);
+        log.info("🤖 02번 CCTV 영상파일이 존재합니다.");
+
+        //ai 서버로 분석요청
         URI uri = UriComponentsBuilder
                 //.fromUriString("http://192.168.0.14:8000/")
                 .fromUriString("http://192.168.0.62:8000/classification")
                 .path("")
-                .queryParam("suspicionVideoPath", suspicionVideoPath)
+                .queryParam("suspicionVideoPath01", suspicionVideoPath01)
+                .queryParam("suspicionVideoPath02", suspicionVideoPath02)
+                .queryParam("stayStartTime", request.getStayStartTime())
+                .queryParam("stayEndTime", request.getStayEndTime())
                 .build()
                 .toUri();
-
-        LocalDateTime recordedAt = LocalDateTime.now();
-        log.info("🤖 recordedAt : {}", recordedAt);
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<AiCrimeAnalyzeResponse> result = restTemplate.getForEntity(uri, AiCrimeAnalyzeResponse.class);
 
+
+        String[] pathSegmentForFileName = request.getSuspicionVideoPath01().split("\\\\");
+        String fileName = pathSegmentForFileName[pathSegmentForFileName.length - 1];
+        log.info("🤖 파일명 : {}", fileName);
+
+        String[] fileNameSegmentForRecordedAt = fileName.split("_");
+        String recordedAtPy = fileNameSegmentForRecordedAt[1];
+        log.info("🤖 recordedAtPy : {}", recordedAtPy);
+
+        //Formatter 설정
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
+        // DateTimeFormatter를 사용하여 문자열을 LocalDateTime으로 변환
+        LocalDateTime recordedAt = LocalDateTime.parse(recordedAtPy, formatter);
+
         CrimeVideoDTO crimeVideoDTO = CrimeVideoDTO.builder()
-                .suspicionVideoPath(result.getBody().getSuspicionVideoPath())
+                .suspicionVideoPath01(suspicionVideoPath01)
+                .suspicionVideoPath02(suspicionVideoPath02)
                 .highlightVideoPath(result.getBody().getHighlightVideoPath())
                 .crimeType(result.getBody().getCrimeType())
                 .recordedAt(recordedAt)
+                .criminalStatus(0L)
                 .store(store)
                 .build();
 
-        String userEmail = store.getUser().getEmail();
-        String highlightVideoPath = result.getBody().getHighlightVideoPath();
 
         CrimeVideo crimeVideo = crimeVideoRepository.save(CrimeVideo.toCrimeVideo(crimeVideoDTO));
         log.info("🤖 crimeVideo storeNo : {}", crimeVideo.getStore().getStoreNo());
 
+        String userEmail = store.getUser().getEmail();
+        String highlightVideoPath = crimeVideo.getHighlightVideoPath();
 
         emailService.sendEmailWithAttachment(userEmail, highlightVideoPath);
         log.info("🤖 하이라이트 영상이 발송되었습니다.");
 
         return CreateCrimeVideoResponse.builder()
                 .crimeType(crimeVideo.getCrimeType())
-                .suspicionVideoPath(crimeVideo.getSuspicionVideoPath())
+                .suspicionVideoPath01(crimeVideo.getSuspicionVideoPath01())
+                .suspicionVideoPath02(crimeVideo.getSuspicionVideoPath02())
                 .highlightVideoPath(crimeVideo.getHighlightVideoPath())
                 .build();
     }
@@ -104,23 +129,27 @@ public class CommandCrimeVideoService {
     public DeleteCrimeVideoResponse deleteCrimeVideo(Long videoNo) {
         // 해당 영상이 있는지 확인
         CrimeVideo crimeVideo = validateCrimeVideoByNo(videoNo);
-        String suspicionVideoPath = crimeVideo.getSuspicionVideoPath();
+        String suspicionVideoPath01 = crimeVideo.getSuspicionVideoPath01();
+        String suspicionVideoPath02 = crimeVideo.getSuspicionVideoPath02();
         String highlightVideoPath = crimeVideo.getHighlightVideoPath();
 
         validateFileByPath(highlightVideoPath);
-        validateFileByPath(suspicionVideoPath);
-        log.info("🤖 해당 경로에 파일이 존재합니다. 경로 : {}", suspicionVideoPath);
         log.info("🤖 해당 경로에 파일이 존재합니다. 경로 : {}", highlightVideoPath);
+        validateFileByPath(suspicionVideoPath01);
+        log.info("🤖 해당 경로에 파일이 존재합니다. 경로 : {}", suspicionVideoPath01);
+        validateFileByPath(suspicionVideoPath02);
+        log.info("🤖 해당 경로에 파일이 존재합니다. 경로 : {}", suspicionVideoPath02);
 
         crimeVideoRepository.delete(crimeVideo);
 
-        File file = new File(suspicionVideoPath);
 
-        if (file.delete()) {
-            log.info("🤖 파일 삭제 성공");
-        } else {
-            throw new AppException(ErrorCode.FILE_DELETE_FAILED);
-        }
+        File highlightVideo = new File(highlightVideoPath);
+        File suspicionVideo01 = new File(suspicionVideoPath01);
+        File suspicionVideo02 = new File(suspicionVideoPath02);
+
+        highlightVideo.delete();
+        suspicionVideo01.delete();
+        suspicionVideo02.delete();
 
         return new DeleteCrimeVideoResponse(crimeVideo.getNo());
     }
@@ -136,6 +165,7 @@ public class CommandCrimeVideoService {
             return crimeVideoRepository.findAllByStoreAndCriminalStatus(store, criminalStatus, pageable).map(ReadAllCrimeVideoResponse::of);
         }
     }
+
 
     // 파일 경로에서 파일명만 추출하는 로직
     public String getFileName(String filePath) {

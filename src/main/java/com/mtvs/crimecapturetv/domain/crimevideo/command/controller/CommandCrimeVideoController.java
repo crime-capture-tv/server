@@ -25,7 +25,8 @@ public class CommandCrimeVideoController {
     @PostMapping("/stores/{storeNo}/videos")
     public ResponseEntity<Response<CreateCrimeVideoResponse>> create(@RequestParam Long storeNo, @RequestBody CreateCrimeVideoRequest request) throws MessagingException {
 
-        log.info("🤖 request : {}", request.getSuspicionVideoPath());
+        log.info("🤖 request : {}", request);
+
         CreateCrimeVideoResponse response = crimeVideoService.createCrimeVideo(storeNo, request);
 
         return ResponseEntity.ok().body(Response.success(response));

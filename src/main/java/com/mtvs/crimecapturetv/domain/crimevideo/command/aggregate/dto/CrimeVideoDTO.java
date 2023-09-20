@@ -14,10 +14,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CrimeVideoDTO {
 
-    private LocalDateTime recordedAt;
-    private String suspicionVideoPath;
+    private String suspicionVideoPath01;
+    private String suspicionVideoPath02;
     private String highlightVideoPath;
+    private LocalDateTime recordedAt;
     private String crimeType;
+    private Long criminalStatus;
     private Store store;
-
 }
