@@ -33,7 +33,7 @@ spring:
     defer-datasource-initialization: true #dml.sql을 실행하기위해 true설정
   sql:
     init:
-      mode: always
+      mode: never
       continue-on-error: false
       data-locations: classpath:sql/dml.sql
       platform: mysql
