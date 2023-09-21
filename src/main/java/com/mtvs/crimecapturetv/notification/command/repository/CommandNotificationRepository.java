@@ -14,5 +14,6 @@ public interface CommandNotificationRepository extends JpaRepository<Notificatio
 
     Page<Notification> findAllByUser(User user, Pageable pageable);
 
+
     Optional<Notification> findByUserAndNotificationType(User user, NotificationType type);
 }

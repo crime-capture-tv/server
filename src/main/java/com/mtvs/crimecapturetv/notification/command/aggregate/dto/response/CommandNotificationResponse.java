@@ -14,17 +14,27 @@ public class CommandNotificationResponse {
 
     private Long notificationNo;
     private String targetUrl;
+    private String notificationMessage;
     private String notificationTitle;
-    private NotificationType notificationType;
-    private Long no;
+    private String notificationType;
 
     public static CommandNotificationResponse of(Notification notification) {
+        String notificationTitle = notification.getNotificationTitle();
+        if (notificationTitle.length() > 9) {
+            notificationTitle = notificationTitle.substring(0,8);
+            notificationTitle = "["+notificationTitle+"...]";
+        }else {
+            notificationTitle = "["+notificationTitle+"]";
+        }
+
+        System.out.println(notificationTitle);
 
         return new CommandNotificationResponse(notification.getNotificationNo(),
                 notification.getTargetUrl(),
-                notification.getNotificationTitle(),
-                notification.getNotificationType(),
-                notification.getUser().getNo());
+                notification.getNotificationType().getMessage(),
+                notificationTitle,
+                notification.getNotificationType().toString());
+
 
     }
 }
