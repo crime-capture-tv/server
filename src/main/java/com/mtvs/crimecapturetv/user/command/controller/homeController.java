@@ -25,6 +25,21 @@ public class homeController {
 
         model.addAttribute("userDetail", userDetail);
 
-        return "home";
+        return "index";
+    }
+
+    @GetMapping("/store")
+    public String store() {
+        return "stores/store";
+    }
+
+    @GetMapping("/users/login")
+    public String usersLogin() {
+        return "users/login";
+    }
+
+    @GetMapping("/users/join")
+    public String usersJoin() {
+        return "users/register";
     }
 }
