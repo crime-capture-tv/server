@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 
@@ -20,6 +20,7 @@
     <!-- Custom styles for this template-->
     <link href="/bootstrap/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="/bootstrap/css/login.css" rel="stylesheet">
+    <link href="/bootstrap/css/style.css" rel="stylesheet">
 </head>
 
 <body class="bg-gradient-primary">
@@ -35,42 +36,37 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="">
-<!--                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
-                            <div class="">
                                 <div class="p-5">
+                                    <form th:method="post" th:action="@{/users/login}" th:object="${userLoginRequest}" class="">
+                                        <button th:align="center" onclick="location.href='/'" type="button" class="brand-btn">Crime Capture TV</button>
+                                        <br />
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4"><b>Login</b></h1>
                                     </div>
                                     <form class="user">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="ID">
+                                            <input type="text" class="form-control form-control-user"
+                                                th:field="*{id}" placeholder="ID">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                                th:field="*{password}" placeholder="Password">
                                         </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
-                                        <a href="/templates/index.html" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </a>
+
+                                        <div id="login-fail" class="alert-fail" hidden>아이디 또는 비밀번호가 일치하지 않습니다</div>
+                                        <br/>
+
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
 
                                     </form>
                                     <br />
                                     <div class="text-center">
-                                        <a class="small" href="">아이디 찾기</a>
-                                        <a class="small" href="">비밀번호 찾기</a>
-                                        <a class="small" href="register.html">회원가입</a>
+                                        <a class="small" onclick="find_id()">아이디 찾기</a> | <a class="small" onclick="find_pw()">비밀번호 찾기</a>
                                     </div>
+                                    <br />
+                                    <div class="text-center">아직 회원이 아니신가요? <a href="/users/join" class="small" >회원가입</a></div>
 
-                                </div>
+                                    </form>
                             </div>
                         </div>
                     </div>
@@ -91,6 +87,32 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/bootstrap/js/sb-admin-2.min.js"></script>
+
+
+<script th:inline="javascript" sec:authorize="isAnonymous()">
+    window.onload = function () {
+        if(location.href.includes("fail")) {
+            document.getElementById("login-fail").removeAttribute("hidden");
+        }
+    }
+    function find_id() {
+        let new_window_width = 400
+        let new_window_height = 400
+        let positionX = 50;
+        let positionY = 150;
+        window.open("/users/find-id", "아이디 찾기", "width=" + new_window_width + ", height=" + new_window_height +
+            ", top=" + positionY + ", left=" + positionX);
+    }
+    function find_pw() {
+        let new_window_width = 400
+        let new_window_height = 400
+        let positionX = 50;
+        let positionY = 150;
+        window.open("/users/find-pw", "비밀번호 찾기", "width=" + new_window_width + ", height=" + new_window_height +
+            ", top=" + positionY + ", left=" + positionX);
+    }
+</script>
+
 
 </body>
 

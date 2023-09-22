@@ -1,6 +1,8 @@
 package com.mtvs.crimecapturetv.user.command.controller;
 
+import com.mtvs.crimecapturetv.configuration.login.UserDetail;
 import com.mtvs.crimecapturetv.user.command.aggregate.dto.UserDto;
+import com.mtvs.crimecapturetv.user.command.aggregate.dto.request.CommandFindByEmailRequest;
 import com.mtvs.crimecapturetv.user.command.aggregate.dto.request.CommandUserJoinRequest;
 import com.mtvs.crimecapturetv.user.command.aggregate.dto.request.CommandUserLoginRequest;
 import com.mtvs.crimecapturetv.user.command.service.CommandUserService;
@@ -8,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,16 +31,23 @@ public class SecurityLoginController {
     private final CommandUserService userService;
 
     // 회원가입 페이지
-//    @GetMapping("/join")
-//    public String joinPage(Model model) {
-//        model.addAttribute("userJoinRequest", new CommandUserJoinRequest());
-//        return "users/join";
-//    }
+    @GetMapping("/join")
+    public String joinPage(Model model) {
+        model.addAttribute("userJoinRequest", new CommandUserJoinRequest());
+        return "users/register";
+    }
+
+    //로그인 페이지
+    @GetMapping("/login")
+    public String loginPage(Model model) {
+        model.addAttribute("userLoginRequest", new CommandUserLoginRequest());
+        return "users/login";
+    }
 
     // 로그인 성공 페이지
     @GetMapping("/login-success")
-    public ResponseEntity<UserDto> login(Principal principal) {
-        UserDto userDto = userService.findUser(principal.getName());
+    public ResponseEntity<UserDto> login(@AuthenticationPrincipal UserDetail userDetail) {
+        UserDto userDto = userService.findUser(userDetail.getName());
         return ResponseEntity.ok().body(userDto);
     }
 
@@ -47,12 +57,21 @@ public class SecurityLoginController {
         return ResponseEntity.ok().body(request.getAttribute("LoginFailMessage"));
     }
 
-    // 로그인 페이지
-//    @GetMapping("/login")
-//    public String loginPage(Model model) {
-//        model.addAttribute("userLoginRequest", new CommandUserLoginRequest());
-//
-//        return "users/login";
-//    }
+    // 아이디 찾기 페이지
+    @GetMapping("/find-id")
+    public String findIdPage(Model model) {
+        model.addAttribute("findByEmailRequest", new CommandFindByEmailRequest());
+        return "users/find-id";
+    }
+
+    // 비밀번호 찾기 페이지
+    @GetMapping("/find-pw")
+    public String findPwPage(Model model) {
+        model.addAttribute("findByEmailRequest", new CommandFindByEmailRequest());
+        return "users/find-pw";
+    }
+
+
+
 
 }
