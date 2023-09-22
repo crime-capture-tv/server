@@ -1,0 +1,20 @@
+/*.brand-btn, .brand-btn:hover, .brand-btn:active, .brand-btn:focus {*/
+/*    font-family: 'Dancing Script', cursive;*/
+/*    font-size: x-large;*/
+/*    font-weight: bold;*/
+/*    text-align: center;*/
+/*    margin-left: auto;*/
+/*    border: none;*/
+/*    color: #000000;*/
+/*}*/
+.brand-btn {
+    /*font-family: 'Dancing Script', cursive;*/
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+    margin-left: 100px;
+    border: none;
+    color: #20c9a6;
+    /*ffc107, 6f42c1*/
+    background-color: #fff;
+}

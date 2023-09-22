@@ -80,11 +80,11 @@ public class SecurityConfig {
 
                                 System.out.println("==========principal 값 ===========: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
-//                                response.setContentType("text/html");
-//                                PrintWriter out = response.getWriter();
-//                                String loginUserName = userService.findUser(authentication.getName()).getId();
-//                                out.println("<script>alert('" + loginUserName+ "님 반갑습니다.'); location.href='/';</script>");
-//                                out.flush();
+                                response.setContentType("text/html");
+                                PrintWriter out = response.getWriter();
+                                String loginUserName = userService.findUser(authentication.getName()).getId();
+                                out.println("<script>alert('" + loginUserName+ "님 반갑습니다.'); location.href='/';</script>");
+                                out.flush();
 
                             }
                         }

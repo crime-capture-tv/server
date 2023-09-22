@@ -33,13 +33,13 @@ public class homeController {
         return "stores/store";
     }
 
-    @GetMapping("/users/login")
-    public String usersLogin() {
-        return "users/login";
-    }
+//    @GetMapping("/users/login")
+//    public String usersLogin() {
+//        return "users/login";
+//    }
 
-    @GetMapping("/users/join")
-    public String usersJoin() {
-        return "users/register";
-    }
+//    @GetMapping("/users/join")
+//    public String usersJoin() {
+//        return "users/register";
+//    }
 }
