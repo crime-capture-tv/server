@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserDto {
 
-    private Long No;
+    private Long no;
     private String name;
     private String id;
     private String password;
@@ -24,7 +24,7 @@ public class UserDto {
 
     public static UserDto of(User user){
         return UserDto.builder()
-                .No(user.getNo())
+                .no(user.getNo())
                 .name(user.getName())
                 .id(user.getId())
                 .password(user.getPassword())

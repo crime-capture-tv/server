@@ -28,11 +28,11 @@ public class SecurityLoginController {
     private final CommandUserService userService;
 
     // 회원가입 페이지
-    @GetMapping("/join")
-    public String joinPage(Model model) {
-        model.addAttribute("userJoinRequest", new CommandUserJoinRequest());
-        return "users/join";
-    }
+//    @GetMapping("/join")
+//    public String joinPage(Model model) {
+//        model.addAttribute("userJoinRequest", new CommandUserJoinRequest());
+//        return "users/join";
+//    }
 
     // 로그인 성공 페이지
     @GetMapping("/login-success")
@@ -48,11 +48,11 @@ public class SecurityLoginController {
     }
 
     // 로그인 페이지
-    @GetMapping("/login")
-    public String loginPage(Model model) {
-        model.addAttribute("userLoginRequest", new CommandUserLoginRequest());
-
-        return "users/login";
-    }
+//    @GetMapping("/login")
+//    public String loginPage(Model model) {
+//        model.addAttribute("userLoginRequest", new CommandUserLoginRequest());
+//
+//        return "users/login";
+//    }
 
 }

@@ -64,8 +64,8 @@ public class SecurityConfig {
                 .formLogin()   // Form Login은 아이디와 비밀번호를 입력해서 들어오는 로그인 형태를 지원하는 Spring Security 기능
                 .loginPage("/users/login")  // 커스텀한 로그인 페이지 사용 가능. 생략시 스프링에서 제공하는 페이지로 감
                 .failureUrl("/users/login-fail")  // 실패 시 이동 페이지
-//                .usernameParameter("id") // html에서 "Id"라는 파라미터 이름을 사용 해야 함.
-//                .passwordParameter("password") // html에서 "password" 라는 파라미터 이름을 사용 해야 함.
+                .usernameParameter("id") // html에서 "Id"라는 파라미터 이름을 사용 해야 함.
+                .passwordParameter("password") // html에서 "password" 라는 파라미터 이름을 사용 해야 함.
                 .successHandler(
                         new AuthenticationSuccessHandler() {
                             @Override
@@ -75,8 +75,8 @@ public class SecurityConfig {
 //                                    throw new LockedException("현재 잠긴 계정입니다.");
 //                                }
 
-//                                HttpSession httpSession = request.getSession();
-//                                httpSession.setMaxInactiveInterval(3600000);
+                                HttpSession httpSession = request.getSession();
+                                httpSession.setMaxInactiveInterval(3600000);
 
                                 System.out.println("==========principal 값 ===========: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 
