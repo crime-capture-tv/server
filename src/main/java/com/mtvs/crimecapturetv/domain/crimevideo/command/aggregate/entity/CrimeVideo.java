@@ -39,8 +39,7 @@ public class CrimeVideo extends BaseEntity {
     @Column(name = "highlight_video_path")
     private String highlightVideoPath;
 
-    @Column(name = "criminal_Status")
-    @ColumnDefault("0")
+    @Column(name = "criminal_Status", nullable = false)
     private Long criminalStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -63,6 +62,8 @@ public class CrimeVideo extends BaseEntity {
                 .suspicionVideoPath01(dto.getSuspicionVideoPath01())
                 .suspicionVideoPath02(dto.getSuspicionVideoPath02())
                 .highlightVideoPath(dto.getHighlightVideoPath())
+                .recordedAt(dto.getRecordedAt())
+                .criminalStatus(dto.getCriminalStatus())
                 .crimeType(dto.getCrimeType())
                 .store(dto.getStore())
                 .build();
