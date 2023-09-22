@@ -1,5 +1,6 @@
 package com.mtvs.crimecapturetv.domain.crimevideo.command.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mtvs.crimecapturetv.domain.crimevideo.command.aggregate.dto.*;
 import com.mtvs.crimecapturetv.domain.crimevideo.command.service.CommandCrimeVideoService;
 import com.mtvs.crimecapturetv.exception.Response;
@@ -23,10 +24,8 @@ public class CommandCrimeVideoController {
     private final CommandCrimeVideoService crimeVideoService;
 
     @PostMapping("/stores/{storeNo}/videos")
-    public ResponseEntity<Response<CreateCrimeVideoResponse>> create(@RequestParam Long storeNo, @RequestBody CreateCrimeVideoRequest request) throws MessagingException {
-
-        log.info("🤖 request : {}", request);
-
+    public ResponseEntity<Response<CreateCrimeVideoResponse>> create(@RequestParam Long storeNo, @RequestBody CreateCrimeVideoRequest request) throws MessagingException, JsonProcessingException {
+        log.info("service 코드 시작");
         CreateCrimeVideoResponse response = crimeVideoService.createCrimeVideo(storeNo, request);
 
         return ResponseEntity.ok().body(Response.success(response));

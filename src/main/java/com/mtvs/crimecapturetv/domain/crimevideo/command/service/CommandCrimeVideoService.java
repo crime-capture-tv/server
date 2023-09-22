@@ -1,5 +1,7 @@
 package com.mtvs.crimecapturetv.domain.crimevideo.command.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mtvs.crimecapturetv.domain.crimevideo.command.aggregate.dto.*;
 import com.mtvs.crimecapturetv.domain.crimevideo.command.aggregate.entity.CrimeVideo;
 import com.mtvs.crimecapturetv.domain.crimevideo.command.repository.CommandCrimeVideoRepository;
@@ -12,17 +14,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.mail.MessagingException;
 import java.io.File;
-import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Service
@@ -37,7 +40,7 @@ public class CommandCrimeVideoService {
 
 
     @Transactional
-    public CreateCrimeVideoResponse createCrimeVideo(Long storeNo, CreateCrimeVideoRequest request) throws MessagingException {
+    public CreateCrimeVideoResponse createCrimeVideo(Long storeNo, CreateCrimeVideoRequest request) throws MessagingException, JsonProcessingException {
 
         // 매장 No으로 매장 조회 없으면 STORE_NOT_FOUNDED 에러 발생
         Store store = validateStoreByNo(storeNo);
@@ -54,60 +57,100 @@ public class CommandCrimeVideoService {
         log.info("🤖 02번 CCTV 영상파일이 존재합니다.");
 
         //ai 서버로 분석요청
-        URI uri = UriComponentsBuilder
-                //.fromUriString("http://192.168.0.14:8000/")
-                .fromUriString("http://192.168.0.62:8000/classification")
-                .path("")
-                .queryParam("suspicionVideoPath01", suspicionVideoPath01)
-                .queryParam("suspicionVideoPath02", suspicionVideoPath02)
-                .queryParam("stayStartTime", request.getStayStartTime())
-                .queryParam("stayEndTime", request.getStayEndTime())
-                .build()
-                .toUri();
+        WebClient webClient = WebClient.create();
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<AiCrimeAnalyzeResponse> result = restTemplate.getForEntity(uri, AiCrimeAnalyzeResponse.class);
+        //요청 url
+        String url = "http://192.168.0.62:8000/classification";
 
+        //Jackson Objectmapper 생성
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        String[] pathSegmentForFileName = request.getSuspicionVideoPath01().split("\\\\");
-        String fileName = pathSegmentForFileName[pathSegmentForFileName.length - 1];
-        log.info("🤖 파일명 : {}", fileName);
+        // 데이터를 Map으로 구성
+        Map<String, Object> data = new HashMap<>();
+        data.put("suspicionVideoPath01", suspicionVideoPath01);
+        data.put("suspicionVideoPath02", suspicionVideoPath02);
+        data.put("stayStartTime", request.getStayStartTime());
+        data.put("stayEndTime", request.getStayEndTime());
 
-        String[] fileNameSegmentForRecordedAt = fileName.split("_");
-        String recordedAtPy = fileNameSegmentForRecordedAt[1];
-        log.info("🤖 recordedAtPy : {}", recordedAtPy);
+        //Map을 JSON 문자열로 변환
+        String jsonRequest = objectMapper.writeValueAsString(data);
+        log.info("🤖 jsonRequest : {}", jsonRequest);
 
-        //Formatter 설정
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
-        // DateTimeFormatter를 사용하여 문자열을 LocalDateTime으로 변환
-        LocalDateTime recordedAt = LocalDateTime.parse(recordedAtPy, formatter);
+        // POST 요청 보내기 (동기 호출)
+        AiCrimeAnalyzeResponse result = webClient
+                .post()
+                .uri(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(jsonRequest))
+                .retrieve()
+                .bodyToMono(AiCrimeAnalyzeResponse.class)
+                .block(); // 동기 호출
 
-        CrimeVideoDTO crimeVideoDTO = CrimeVideoDTO.builder()
-                .suspicionVideoPath01(suspicionVideoPath01)
-                .suspicionVideoPath02(suspicionVideoPath02)
-                .highlightVideoPath(result.getBody().getHighlightVideoPath())
-                .crimeType(result.getBody().getCrimeType())
-                .recordedAt(recordedAt)
-                .criminalStatus(0L)
-                .store(store)
-                .build();
+        log.info("🤖 result : {}", result.getCrimeType());
 
 
-        CrimeVideo crimeVideo = crimeVideoRepository.save(CrimeVideo.toCrimeVideo(crimeVideoDTO));
-        log.info("🤖 crimeVideo storeNo : {}", crimeVideo.getStore().getStoreNo());
 
-        String userEmail = store.getUser().getEmail();
-        String highlightVideoPath = crimeVideo.getHighlightVideoPath();
+        // 보내진 사람있는 영상이 의심이 아니면 저장된 파일 삭제
+        if(result.getCrimeType().equals("normal")) {
 
-        emailService.sendEmailWithAttachment(userEmail, highlightVideoPath);
-        log.info("🤖 하이라이트 영상이 발송되었습니다.");
+            // 영상 삭제
+            File suspicionVideo01 = new File(suspicionVideoPath01);
+            File suspicionVideo02 = new File(suspicionVideoPath02);
 
-        return CreateCrimeVideoResponse.builder()
-                .crimeType(crimeVideo.getCrimeType())
-                .suspicionVideoPath01(crimeVideo.getSuspicionVideoPath01())
-                .suspicionVideoPath02(crimeVideo.getSuspicionVideoPath02())
-                .highlightVideoPath(crimeVideo.getHighlightVideoPath())
-                .build();
+            suspicionVideo01.delete();
+            suspicionVideo02.delete();
+
+            return CreateCrimeVideoResponse.builder()
+                    .crimeType("범죄가 아닙니다.")
+                    .suspicionVideoPath01("suspicionVideo01 삭제됨")
+                    .suspicionVideoPath02("suspicionVideo02 삭제됨")
+                    .highlightVideoPath("highlightVideo 없음")
+                    .build();
+        } else {
+
+            String[] pathSegmentForFileName = request.getSuspicionVideoPath01().split("\\\\");
+            String fileName = pathSegmentForFileName[pathSegmentForFileName.length - 1];
+            log.info("🤖 파일명 : {}", fileName);
+
+            String[] fileNameSegmentForRecordedAt = fileName.split("_");
+            String recordedAtPy = fileNameSegmentForRecordedAt[1];
+            log.info("🤖 recordedAtPy : {}", recordedAtPy);
+
+            //Formatter 설정
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
+            // DateTimeFormatter를 사용하여 문자열을 LocalDateTime으로 변환
+            LocalDateTime recordedAt = LocalDateTime.parse(recordedAtPy, formatter);
+            log.info("localdatetime recordedAt : {}", recordedAt);
+
+            String highlightVideoPath = result.getHighlightVideoPath();
+            log.info("🤖 highlightVideoPath : {}", highlightVideoPath);
+
+            // DB에 저장
+            CrimeVideoDTO crimeVideoDTO = CrimeVideoDTO.builder()
+                    .suspicionVideoPath01(suspicionVideoPath01)
+                    .suspicionVideoPath02(suspicionVideoPath02)
+                    .highlightVideoPath(highlightVideoPath)
+                    .crimeType(result.getCrimeType())
+                    .recordedAt(recordedAt)
+                    .criminalStatus(0L)
+                    .store(store)
+                    .build();
+
+            CrimeVideo crimeVideo = crimeVideoRepository.save(CrimeVideo.toCrimeVideo(crimeVideoDTO));
+            log.info("🤖 crimeVideo : {}", crimeVideo);
+
+            //이메일 발송
+            String userEmail = store.getUser().getEmail();
+            emailService.sendEmailWithAttachment(userEmail, highlightVideoPath);
+            log.info("🤖 하이라이트 영상이 발송되었습니다.");
+
+            return CreateCrimeVideoResponse.builder()
+                    .crimeType(crimeVideo.getCrimeType())
+                    .suspicionVideoPath01(crimeVideo.getSuspicionVideoPath01())
+                    .suspicionVideoPath02(crimeVideo.getSuspicionVideoPath02())
+                    .highlightVideoPath(crimeVideo.getHighlightVideoPath())
+                    .build();
+        }
     }
 
     @Transactional

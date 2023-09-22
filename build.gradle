@@ -33,6 +33,12 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.3.1'
 
+    //jackson
+    implementation "com.fasterxml.jackson.core:jackson-core"
+
+    //webplux
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
     //swagger
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
 
