@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -19,62 +18,93 @@
 
     <!-- Custom styles for this template-->
     <link href="/bootstrap/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/bootstrap/css/login.css" rel="stylesheet">
+    <link href="/bootstrap/css/style.css" rel="stylesheet">
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="back-color">
+<div class="container containerWrap">
 
-    <div class="container">
-
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row">
-                    <div class="col-lg-7">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
-                            </div>
-                            <form class="user">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
-                                    </div>
-                                </div>
-                                <a href="/users/login" class="btn btn-primary btn-user btn-block">
-                                    회원가입
-                                </a>
-
-                            </form>
-                            <hr>
-                            <div class="text-center">이미 계정이 있으신가요? <a class="small" href="/users/login">로그인</a></div>
-                        </div>
+    <div class="divmargin card o-hidden border-0 shadow-lg">
+        <!-- Nested Row within Card Body -->
+        <div class="registdiplay">
+            <form th:object="${userJoinRequest}" id="userJoinRequest">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Join</h1>
                     </div>
-                </div>
-            </div>
-        </div>
 
+                                <div class="inputElement">
+                                    <input th:field="*{id}" type="text" class="form-control form-control-user" placeholder="아이디를 입력하세요." oninput="check_id()" id="id">
+
+
+                                        <div style="margin-top: 5px" class="w-75">
+                                            <div id="id-pass" class="alert-pass" hidden>사용 가능한 아이디 입니다.</div>
+                                            <div id="id-fail" class="alert-fail" hidden>아이디가 중복됩니다.</div>
+                                            <div id="id-null" class="alert-fail" hidden>공백일 수 없습니다.</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="inputElement">
+                                        <input th:field="*{password}" type="password" class="form-control form-control-user"
+                                            placeholder="비밀번호를 입력하세요.">
+                                    </div>
+
+                                    <div class="inputElement">
+                                        <input id="password-check" type="password" class="form-control form-control-user" placeholder="비밀번호 확인" oninput="check_pw()">
+                                        <div style="margin-top: 5px" class="w-75">
+                                            <div id="password-check-pass" class="alert-pass" hidden>비밀번호가 일치합니다.</div>
+                                            <div id="password-check-fail" class="alert-fail" hidden>비밀번호가 일치하지 않습니다.</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="inputElement">
+                                        <input th:field="*{name}" type="text" class="form-control form-control-user"
+                                               id="exampleRepeatPassword" placeholder="이름을 입력하세요.">
+                                    </div>
+
+                                    <div class="inputElement">
+                                        <input th:field="*{phoneNumber}" type="text" class="form-control form-control-user"
+                                               placeholder="전화번호를 입력하세요.">
+                                    </div>
+
+                                    <div class="inputElement">
+                                        <div class="w-75 d-flex">
+                                            <input th:field="*{email}" type="text" class="form-control form-control-user"
+                                                placeholder="이메일을 입력하세요." oninput="check_email()" >
+                                            <button id="sendEmail-btn" type="button" class="send-btn" onclick="send_email()" disabled>인증번호 전송</button>
+                                        </div>
+
+
+                                        <div style="margin-top: 5px" class="w-75">
+                                            <div id="email-pass" class="alert-pass" hidden>사용 가능한 이메일 입니다.</div>
+                                            <div id="email-fail" class="alert-fail" hidden>이메일이 중복됩니다.</div>
+                                            <div id="email-null" class="alert-fail" hidden>공백일 수 없습니다.</div>
+                                            <div id="email-type" class="alert-fail" hidden>이메일 형식이 아닙니다.</div>
+                                        </div>
+                                        <div id="check-email" style="margin-top: 20px;" hidden>
+                                            <input th:field="*{code}" type="text" class="form-control form-control-user" placeholder="인증번호">
+                                            <button type="button" class="send-btn" onclick="auth_email()">인증</button>
+                                        </div>
+                                        <div style="margin-top: 5px" class="w-75">
+                                            <div id="email-check-pass" class="alert-pass" hidden>인증번호가 일치합니다.</div>
+                                            <div id="email-check-fail" class="alert-fail" hidden>인증번호가 일치하지 않습니다.</div>
+                                        </div>
+                                    </div>
+
+                    <div>
+                        <button id="join-btn" class="join-btn" type="button" onclick="join()" disabled>회원가입</button>
+                        <hr>
+                        <div class="text-center">이미 계정이 있으신가요? <a class="" href="/users/login">로그인</a></div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
     </div>
 
+</div>
     <!-- Bootstrap core JavaScript-->
     <script src="/bootstrap/vendor/jquery/jquery.min.js"></script>
     <script src="/bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -84,6 +114,192 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/bootstrap/js/sb-admin-2.min.js"></script>
+
+<script th:inline="javascript">
+
+    let idPass = false
+    let passwordPass = false
+    let emailAuthPass = false
+
+    function check_id() {
+        let id = $("#id").val();
+        idPass = false
+        join_btn_disable()
+
+        if(id == "") {
+            show('id-null')
+            hide('id-pass')
+            hide('id-fail')
+            return
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: '/api/v1/users/check-id',
+            data: {
+                id: id
+            },
+            success: function (duplicated) {
+                console.log(duplicated)
+                if (duplicated.message == true) {
+                    hide('id-null')
+                    hide('id-pass')
+                    show('id-fail')
+                } else {
+                    hide('id-null')
+                    show('id-pass')
+                    hide('id-fail')
+                    idPass = true
+                    check_all()
+                }
+            }
+        });
+    }
+
+    function check_email() {
+        let email = $("#email").val();
+        sendEmail_btn_disable()
+
+        if(email == "") {
+            show('email-null')
+            hide('email-pass')
+            hide('email-fail')
+            hide('email-type')
+            return
+        } else if(!email.includes("@")) {
+            hide('email-null')
+            hide('email-pass')
+            hide('email-fail')
+            show('email-type')
+            return
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: '/api/v1/users/check-email',
+            data: {
+                email: email
+            },
+            success: function (duplicated) {
+                console.log(duplicated)
+                if (duplicated.message == true) {
+                    hide('email-null')
+                    hide('email-pass')
+                    show('email-fail')
+                    hide('email-type')
+                } else {
+                    hide('email-null')
+                    show('email-pass')
+                    hide('email-fail')
+                    hide('email-type')
+                    document.getElementById("sendEmail-btn").removeAttribute("disabled")
+                }
+            }
+        });
+    }
+
+
+    function auth_email() {
+        let code = $("#code").val();
+        emailAuthPass = false
+        join_btn_disable()
+
+        console.log('코드', code);
+
+        $.ajax({
+            type: 'GET',
+            url: '/api/v1/users/check-auth-email',
+            data: {
+                code: code
+            },
+            success:function(auth){
+            if(auth.message == true){
+                show('email-check-pass')
+                hide('email-check-fail')
+                emailAuthPass = true
+                check_all()
+            } else {
+                hide('email-check-pass')
+                show('email-check-fail')
+        }
+    }
+        })
+    }
+
+    function send_email() {
+        let email = $("#email").val();
+        $.ajax({
+            type: 'GET',
+            url: '/api/v1/users/send-auth-email',
+            data: {
+                email: email
+            },
+            success:function (message) {
+                console.log(message);
+                alert(message.message)
+            }
+        });
+
+        document.getElementById("check-email").removeAttribute("hidden")
+        document.getElementById("check-email").className = "w-75 d-flex"
+    }
+
+    function check_pw() {
+        passwordPass = false
+        join_btn_disable()
+
+        let pw = $("#password").val();
+        let pw2 = $("#password-check").val();
+
+        if(pw != '' && pw2 != ''){
+            if(pw == pw2){
+                show('password-check-pass')
+                hide('password-check-fail')
+                passwordPass = true
+                check_all()
+            }
+            else{
+                hide('password-check-pass')
+                show('password-check-fail')
+            }
+        }
+    }
+
+    function show(id) {
+        if(document.getElementById(id) != null) {
+            document.getElementById(id).removeAttribute("hidden")
+        }
+    }
+    function hide(id) {
+        if(document.getElementById(id) != null) {
+            document.getElementById(id).setAttribute("hidden", "true")
+        }
+    }
+    function check_all() {
+        if(idPass == true && passwordPass == true && emailAuthPass == true) {
+            document.getElementById('join-btn').removeAttribute("disabled")
+        }
+    }
+    function join_btn_disable() {
+        document.getElementById('join-btn').setAttribute("disabled", "true")
+    }
+    function sendEmail_btn_disable() {
+        document.getElementById('sendEmail-btn').setAttribute("disabled", "true")
+    }
+
+    function join() {
+        $.ajax({
+            type: 'POST',
+            url: '/api/v1/users/join',
+            data: $('#userJoinRequest').serialize(),
+            success: function (message) {
+                alert("회원가입 성공")
+                location.href="/users/login"
+            }
+        });
+    }
+
+</script>
 
 </body>
 
