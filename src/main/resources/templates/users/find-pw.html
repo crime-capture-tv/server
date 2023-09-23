@@ -37,7 +37,7 @@
                             <form th:object="${findByEmailRequest}" id="findByEmailRequest">
 
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4"><b>비밀번호 찾기</b></h1>
+                                    <h1 class="h4 text-gray-900 mb-4"><b>비밀번호 재설정</b></h1>
                                 </div>
                                 <div class="form-group">
                                     <input th:field="*{id}" type="text" class="form-control form-control-user"
@@ -46,7 +46,7 @@
                                     <input type="text" class="form-control form-control-user"
                                            th:field="*{email}" placeholder="이메일을 입력하세요.">
                                     <br/>
-                                    <button type="button" onclick="send_pw_by_email()" class="btn btn-primary btn-user btn-block">비밀번호 찾기</button>
+                                    <button type="button" onclick="send_pw_by_email()" class="btn btn-primary btn-user btn-block">비밀번호 재설정</button>
                                     <button type="button" onclick="window.close()" class="btn btn-primary btn-user btn-block">창 닫기</button>
 
                                 </div>
