@@ -23,12 +23,19 @@
     <link href="/bootstrap/css/style.css" rel="stylesheet">
 </head>
 
-<body class="bg-gradient-primary">
+<body class="back-color">
 
     <div class="container">
 
+        <a class="sidebar-brand d-flex align-items-center justify-content-center logo-margin" href="/" >
+            <div class="sidebar-brand-icon">
+                <img src="/bootstrap/img/logo.png" width="170"></img>
+            </div>
+        </a>
+<!--        <button th:align="center" onclick="location.href='/'" type="button" class="brand-btn">Crime Capture TV</button>-->
+
         <!-- Outer Row -->
-        <div class="row justify-content-center">
+        <div class="row justify-content-center container-margin">
 
             <div class="disp col-lg-12 col-md-9">
 
@@ -38,7 +45,6 @@
                         <div class="">
                                 <div class="p-5">
                                     <form th:method="post" th:action="@{/users/login}" th:object="${userLoginRequest}" class="">
-                                        <button th:align="center" onclick="location.href='/'" type="button" class="brand-btn">Crime Capture TV</button>
                                         <br />
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4"><b>Login</b></h1>
@@ -46,25 +52,25 @@
                                     <form class="user">
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
-                                                th:field="*{id}" placeholder="ID">
+                                                th:field="*{id}" placeholder="아이디">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                th:field="*{password}" placeholder="Password">
+                                                th:field="*{password}" placeholder="비밀번호">
                                         </div>
 
                                         <div id="login-fail" class="alert-fail" hidden>아이디 또는 비밀번호가 일치하지 않습니다</div>
                                         <br/>
 
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+                                        <button type="submit" class="join-btn">로그인</button>
 
                                     </form>
                                     <br />
-                                    <div class="text-center">
-                                        <a class="small" onclick="find_id()">아이디 찾기</a> | <a class="small" onclick="find_pw()">비밀번호 찾기</a>
+                                    <div class="text-center bottom-text" style=" text-decoration-line: none;">
+                                        <a class="small" onclick="find_id()">아이디 찾기</a> | <a class="small" onclick="find_pw()">비밀번호 재설정</a>
                                     </div>
                                     <br />
-                                    <div class="text-center">아직 회원이 아니신가요? <a href="/users/join" class="small" >회원가입</a></div>
+                                    <div class="text-center">아직 회원이 아니신가요? <a href="/users/join">회원가입</a></div>
 
                                     </form>
                             </div>
@@ -88,6 +94,13 @@
     <!-- Custom scripts for all pages-->
     <script src="/bootstrap/js/sb-admin-2.min.js"></script>
 
+    <script th:inline="javascript" sec:authorize="isAuthenticated()">
+        window.onload = function () {
+            alert('이미 로그인 되어있습니다')
+            location.href='/'
+        }
+    </script>
+
 
 <script th:inline="javascript" sec:authorize="isAnonymous()">
     window.onload = function () {
@@ -108,7 +121,7 @@
         let new_window_height = 400
         let positionX = 50;
         let positionY = 150;
-        window.open("/users/find-pw", "비밀번호 찾기", "width=" + new_window_width + ", height=" + new_window_height +
+        window.open("/users/find-pw", "비밀번호 재설정", "width=" + new_window_width + ", height=" + new_window_height +
             ", top=" + positionY + ", left=" + positionX);
     }
 </script>
