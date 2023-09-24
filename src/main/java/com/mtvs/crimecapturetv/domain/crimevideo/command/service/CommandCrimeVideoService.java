@@ -209,6 +209,11 @@ public class CommandCrimeVideoService {
         }
     }
 
+    public CrimeVideo getCrimeVideo(Long crimeVideoNo) {
+        return crimeVideoRepository.findById(crimeVideoNo)
+                .orElseThrow(() -> new AppException(ErrorCode.CRIME_VIDEO_NOT_FOUNDED));
+    }
+
 
     // 파일 경로에서 파일명만 추출하는 로직
     public String getFileName(String filePath) {
