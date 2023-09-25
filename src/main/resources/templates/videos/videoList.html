@@ -226,12 +226,10 @@
 
                     <!-- Earnings (Monthly) Card Example -->
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <select class="form-control">
-                            <!-- [데이터]{사용자.점포} -->
-                            <option>태근 점</option>
-                            <option>나영 점</option>
-                            <option>주원 점</option>
-                            <option>짠짠 점</option>
+                        <select id="criminal-status" class="form-control">
+                            <option value="videoList">전체 영상 리스트</option>
+                            <option value="videoListStatus0">의심 영상 리스트</option>
+                            <option value="videoListStatus1">범죄 영상 리스트</option>
                         </select>
                     </div>
                 </div>
@@ -243,47 +241,142 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="videoList" width="100%" cellspacing="0">
-                                    <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>녹화일시</th>
-                                        <th>의심범죄유형</th>
-                                        <th>하이라이트영상 경로</th>
-                                        <th>영상 보러가기</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="videos : ${videoList}">
-                                        <td>
+                                <div id="videoListTable" style="display: none;">
+                                    <table class="table table-bordered" id="videoList" width="100%" cellspacing="0">
+                                        <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>녹화일시</th>
+                                            <th>의심범죄유형</th>
+                                            <th>하이라이트영상 경로</th>
+                                            <th>영상 보러가기</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="videos : ${videoList}">
+                                            <td>
                                             <span class=" text-sm font-weight-bold" style="color: #0d6efd"
                                                   th:text="${videos.no}"></span>
-                                        </td>
-                                        <td>
+                                            </td>
+                                            <td>
                                             <span class=" text-sm font-weight-bold" style="color: #0d6efd"
                                                   th:text="${videos.recordedAt}"></span>
-                                        </td>
-                                        <td>
+                                            </td>
+                                            <td>
                                             <span class=" text-sm font-weight-bold" style="color: #0d6efd"
                                                   th:text="${videos.crimeType}"></span>
-                                        </td>
-                                        <td>
+                                            </td>
+                                            <td>
                                             <span class=" text-sm font-weight-bold" style="color: #0d6efd"
                                                   th:text="${videos.highlightVideoPath}"></span>
-                                        </td>
-                                        <td>
-                                            <!--/*@thymesVar id="no" type="*/-->
-                                            <a th:href="@{/stores/videosDetail/{videoNo}(videoNo=${videos.no})}" class="btn btn-primary btn-icon-split">
+                                            </td>
+                                            <td>
+                                                <!--/*@thymesVar id="no" type="*/-->
+                                                <a th:href="@{/stores/videosDetail/{videoNo}(videoNo=${videos.no})}"
+                                                   class="btn btn-primary btn-icon-split">
                                                 <span class="icon text-white-50">
                                                     <i class="fas fa-flag"></i>
                                                 </span>
-                                                <span class="text">영상보기</span>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                                    <span class="text">영상보기</span>
+                                                </a>
+                                            </td>
+                                        </tr>
 
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div id="videoListStatus0Table" style="display: none;">
+                                    <table class="table table-bordered" id="videoListStatus0" width="100%"
+                                           cellspacing="0">
+                                        <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>녹화일시</th>
+                                            <th>의심범죄유형</th>
+                                            <th>하이라이트영상 경로</th>
+                                            <th>영상 보러가기</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="videos : ${videoListStatus0}">
+                                            <td>
+                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                                  th:text="${videos.no}"></span>
+                                            </td>
+                                            <td>
+                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                                  th:text="${videos.recordedAt}"></span>
+                                            </td>
+                                            <td>
+                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                                  th:text="${videos.crimeType}"></span>
+                                            </td>
+                                            <td>
+                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                                  th:text="${videos.highlightVideoPath}"></span>
+                                            </td>
+                                            <td>
+                                                <!--/*@thymesVar id="no" type="*/-->
+                                                <a th:href="@{/stores/videosDetail/{videoNo}(videoNo=${videos.no})}"
+                                                   class="btn btn-primary btn-icon-split">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-flag"></i>
+                                                </span>
+                                                    <span class="text">영상보기</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div id="videoListStatus1Table" style="display: none;">
+                                    <table class="table table-bordered" id="videoListStatus1" width="100%"
+                                           cellspacing="0">
+                                        <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>녹화일시</th>
+                                            <th>의심범죄유형</th>
+                                            <th>하이라이트영상 경로</th>
+                                            <th>영상 보러가기</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="videos : ${videoListStatus1}">
+                                            <td>
+                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                                  th:text="${videos.no}"></span>
+                                            </td>
+                                            <td>
+                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                                  th:text="${videos.recordedAt}"></span>
+                                            </td>
+                                            <td>
+                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                                  th:text="${videos.crimeType}"></span>
+                                            </td>
+                                            <td>
+                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                                  th:text="${videos.highlightVideoPath}"></span>
+                                            </td>
+                                            <td>
+                                                <!--/*@thymesVar id="no" type="*/-->
+                                                <a th:href="@{/stores/videosDetail/{videoNo}(videoNo=${videos.no})}"
+                                                   class="btn btn-primary btn-icon-split">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-flag"></i>
+                                                </span>
+                                                    <span class="text">영상보기</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -358,6 +451,31 @@
 <!-- Page level custom scripts -->
 <script src="/bootstrap/js/demo/chart-area-demo.js"></script>
 <script src="/bootstrap/js/demo/chart-pie-demo.js"></script>
+<script>
+    const selectElement = document.getElementById("criminal-status");
+    const videoListTable = document.getElementById("videoListTable");
+    const videoListStatus0Table = document.getElementById("videoListStatus0Table");
+    const videoListStatus1Table = document.getElementById("videoListStatus1Table");
+
+    selectElement.addEventListener("change", function () {
+        const selectedValue = selectElement.value;
+
+        // 선택한 값을 기반으로 테이블을 표시하거나 숨깁니다.
+        if (selectedValue === "videoList") {
+            videoListTable.style.display = "block";
+            videoListStatus0Table.style.display = "none";
+            videoListStatus1Table.style.display = "none";
+        } else if (selectedValue === "videoListStatus0") {
+            videoListTable.style.display = "none";
+            videoListStatus0Table.style.display = "block";
+            videoListStatus1Table.style.display = "none";
+        } else if (selectedValue === "videoListStatus1") {
+            videoListTable.style.display = "none";
+            videoListStatus0Table.style.display = "none";
+            videoListStatus1Table.style.display = "block";
+        }
+    });
+</script>
 
 </div>
 </body>

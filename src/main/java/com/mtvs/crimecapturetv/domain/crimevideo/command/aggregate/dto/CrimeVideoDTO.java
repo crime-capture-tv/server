@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CrimeVideoDTO {
 
+    private Long videoNo;
     private String suspicionVideoPath01;
     private String suspicionVideoPath02;
     private String highlightVideoPath;
@@ -38,6 +39,7 @@ public class CrimeVideoDTO {
         Path videoPath = FileSystems.getDefault().getPath(crimeVideo.getHighlightVideoPath());
 
         return CrimeVideoDTO.builder()
+                .videoNo(crimeVideo.getNo())
                 .suspicionVideoPath01(crimeVideo.getSuspicionVideoPath01())
                 .suspicionVideoPath02(crimeVideo.getSuspicionVideoPath02())
                 .highlightVideoPath(crimeVideo.getHighlightVideoPath())

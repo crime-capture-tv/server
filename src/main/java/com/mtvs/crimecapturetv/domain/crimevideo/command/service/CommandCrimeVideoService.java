@@ -89,9 +89,8 @@ public class CommandCrimeVideoService {
         log.info("🤖 result : {}", result.getCrimeType());
 
 
-
         // 보내진 사람있는 영상이 의심이 아니면 저장된 파일 삭제
-        if(result.getCrimeType().equals("normal")) {
+        if (result.getCrimeType().equals("normal")) {
 
             // 영상 삭제
             File suspicionVideo01 = new File(suspicionVideoPath01);
@@ -239,4 +238,6 @@ public class CommandCrimeVideoService {
             throw new AppException(ErrorCode.FILE_NOT_FOUNDED);
         }
     }
+
+
 }

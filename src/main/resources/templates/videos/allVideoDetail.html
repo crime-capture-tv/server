@@ -197,13 +197,13 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">의심영상조회</h1>
+                    <h1 class="h3 mb-0 text-gray-800">모든영상보기</h1>
                 </div>
                 <div class="col-xl-8 col-lg-7">
                     <!-- Area Chart -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary" th:text="${crimeVideo.recordedAt + ' 하이라이트 영상'}"></h6>
+                            <h6 class="m-0 font-weight-bold text-primary" th:text="${crimeVideo.recordedAt + '하이라이트 영상'}"></h6>
                         </div>
                         <div class="card-body">
                             <div class="video-player">
@@ -212,21 +212,10 @@
                                 </video>
                             </div>
 
-                            <a th:onclick="|criminalStatus('${crimeVideo.videoNo}',1)|"
-                               class="btn btn-danger btn-block"
-                               th:if="${crimeVideo.criminalStatus == 0}">
-                                범죄영상으로 분류
+                            <a th:href="/videos/${crimeVideo.highlightVideoPath}/download"
+                               class="btn btn-danger btn-block">
+                                해당영상 다운로드
                             </a>
-                            <a th:onclick="|criminalStatus('${crimeVideo.videoNo}',1)|"
-                               class="btn btn-warning btn-block"
-                               th:if="${crimeVideo.criminalStatus == 0}">
-                               보류영상으로 분류
-                            </a>
-                            <a th:href="@{/stores/all-videosDetail/{videoNo}(videoNo=${crimeVideo.videoNo})}" class="btn btn-info btn-block">
-                                영상 전체 보기
-                            </a>
-
-
                         </div>
                     </div>
 

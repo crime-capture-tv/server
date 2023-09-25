@@ -12,24 +12,20 @@ import com.mtvs.crimecapturetv.user.command.service.CommandUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.core.io.support.ResourceRegion;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @Controller
@@ -48,10 +44,16 @@ public class CrimeVideoController {
         UserDto userDto = getUserDto(userDetail.getId());
         StoreDTO storeDTO = getStoreDTO(userDetail.getNo(), storeNo);
 
-        Page<ReadAllCrimeVideoResponse> responsePage = crimeVideoService.readCrimeVideoLists(4L, storeNo, pageable);
-        model.addAttribute("videoList", responsePage);
+        Page<ReadAllCrimeVideoResponse> responsePageAll = crimeVideoService.readCrimeVideoLists(4L, storeNo, pageable);
+        log.info("🤖 pageCount {}", responsePageAll.stream().count());
+        Page<ReadAllCrimeVideoResponse> responsePageStatus0 = crimeVideoService.readCrimeVideoLists(0L, storeNo, pageable);
+        log.info("🤖 pageCount {}", responsePageStatus0.stream().count());
+        Page<ReadAllCrimeVideoResponse> responsePageStatus1 = crimeVideoService.readCrimeVideoLists(1L, storeNo, pageable);
+        log.info("🤖 pageCount {}", responsePageStatus1.stream().count());
 
-        Long value = 4L;
+        model.addAttribute("videoList", responsePageAll);
+        model.addAttribute("videoListStatus0", responsePageStatus0);
+        model.addAttribute("videoListStatus1", responsePageStatus1);
 
         return "videos/videoList";
     }
@@ -69,6 +71,28 @@ public class CrimeVideoController {
 
         return "videos/videoDetail";
     }
+
+    @GetMapping("/stores/all-videosDetail/{videoNo}")
+    public String allVideoDetail(@PathVariable Long videoNo, Model model, @AuthenticationPrincipal UserDetail userDetail, Pageable pageable) {
+        Long storeNo = 1L;
+        UserDto userDto = getUserDto(userDetail.getId());
+        StoreDTO storeDTO = getStoreDTO(userDetail.getNo(), storeNo);
+        CrimeVideoDTO crimeVideoDTO = getCrimeVideo(videoNo);
+
+        model.addAttribute("user", userDto);
+        model.addAttribute("store", storeDTO);
+        model.addAttribute("crimeVideo", crimeVideoDTO);
+
+        return "videos/allVideoDetail";
+    }
+
+//    //영상 다운로드
+//    @GetMapping("/videos/{videoPath}/download")
+//    public ResponseEntity<Resource> downloadVideo(@PathVariable String videoPath) throws FileNotFoundException {
+//        log.info("🤖 다운로드 메서드 실행");
+//        return crimeVideoService.downloadVideo(videoPath);
+//    }
+
 
     @RequestMapping(value = "api/resource", method = RequestMethod.POST)
     public ResponseEntity<Resource> videoUrl() throws Exception {
