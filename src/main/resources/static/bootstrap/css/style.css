@@ -18,3 +18,11 @@
     /*ffc107, 6f42c1*/
     background-color: #fff;
 }
+
+.alert-fail {
+    color: red;
+}
+
+.alert-pass {
+    color: green;
+}

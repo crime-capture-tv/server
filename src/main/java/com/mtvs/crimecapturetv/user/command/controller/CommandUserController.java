@@ -52,17 +52,12 @@ public class CommandUserController {
         return Response.success(emailService.sendLoginAuthMessage(email));
     }
 
-    // 인증 메일 확인하기
+    // 인증 메일 확인 하기
     @GetMapping("/check-auth-email")
     public Response<Boolean> checkAuthEmail(@RequestParam String code) {
         System.out.println(code);
-        if (emailService.getData(code) == null){
-            log.info(code, "실패");
-            return Response.success(false);
-        }else {
-            log.info(code, "성공");
-            return Response.success(true);
-        }
+        if (emailService.getData(code) == null) return Response.success(false);
+        else return Response.success(true);
     }
 
     // 이메일로 아이디 찾기
