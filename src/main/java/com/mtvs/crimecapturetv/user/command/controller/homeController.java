@@ -1,17 +1,12 @@
 package com.mtvs.crimecapturetv.user.command.controller;
 
 import com.mtvs.crimecapturetv.configuration.login.UserDetail;
-import com.mtvs.crimecapturetv.user.command.aggregate.entity.User;
 import com.mtvs.crimecapturetv.user.command.repository.CommandUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import javax.servlet.ServletResponse;
-import java.security.Principal;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,7 +25,7 @@ public class homeController {
 
     @GetMapping("/store")
     public String store() {
-        return "stores/store";
+        return "board";
     }
 
 //    @GetMapping("/users/login")

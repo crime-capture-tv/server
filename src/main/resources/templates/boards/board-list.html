@@ -9,29 +9,33 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Crime Capture TV - Dashboard</title>
+    <title>SB Admin 2 - Tables</title>
 
-    <!-- Custom fonts for this template-->
-    <link href="/bootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom fonts for this template -->
+    <link href="../bootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
 
-    <!-- Custom styles for this template-->
-    <link href="/bootstrap/css/index.css" rel="stylesheet">
-    <link href="/bootstrap/css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../bootstrap/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../bootstrap/css/store.css" rel="stylesheet">
+    <!-- Custom styles for this page -->
+    <link href="../bootstrap/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
 
+
+
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-    <!-- 사이드바 -->
     <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../index.html">
             <div class="sidebar-brand-icon">
                 <img src="/bootstrap/img/logo.png" width="50"></img>
             </div>
@@ -43,7 +47,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="/">
+            <a class="nav-link" href="../index.html">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>대시보드</span></a>
         </li>
@@ -58,7 +62,7 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link" href="/templates/boards/board-list1212.html">
+            <a class="nav-link" href="../templates/stores/store.html">
                 <i class="fas fa-fw fa-store"></i>
                 <span>점포 관리</span></a>
         </li>
@@ -68,7 +72,7 @@
                 <span>영상 관리</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/templates/boards/board-list1212.html">
+            <a class="nav-link" href="../templates/boards/board.html">
                 <i class="fas fa-fw fa-comment"></i>
                 <span>1:1 문의</span></a>
         </li>
@@ -82,7 +86,6 @@
         </div>
 
     </ul>
-    <!-- 사이드바 끝 -->
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -129,8 +132,8 @@
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-bell fa-fw"></i>
                             <!-- Counter - Alerts -->
-<!--                            알림 개수 표시-->
-<!--                            <span class="badge badge-danger badge-counter">3+&lt;!&ndash;[데이터]{신규 의심 영상 갯수}&ndash;&gt;</span>-->
+                            <!--                            알림 개수 표시-->
+                            <!--                            <span class="badge badge-danger badge-counter">3+&lt;!&ndash;[데이터]{신규 의심 영상 갯수}&ndash;&gt;</span>-->
                         </a>
                         <!-- Dropdown - Alerts -->
                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -138,28 +141,7 @@
                             <h6 class="dropdown-header">
                                 Alerts Center
                             </h6>
-<!--                                                            <a class="dropdown-item d-flex align-items-center" href="#">-->
-<!--                                                                <div class="mr-3">-->
-<!--                                                                    <div class="icon-circle bg-primary">-->
-<!--                                                                        <i class="fas fa-file-alt text-white"></i>-->
-<!--                                                                    </div>-->
-<!--                                                                </div>-->
-<!--                                                                <div>-->
-<!--                                                                    <div class="small text-gray-500">December 12, 2023</div>-->
-<!--                                                                    <span class="font-weight-bold">A new monthly report is ready to download!</span>-->
-<!--                                                                </div>-->
-<!--                                                            </a>-->
-<!--                                                            <a class="dropdown-item d-flex align-items-center" href="#">-->
-<!--                                                                <div class="mr-3">-->
-<!--                                                                    <div class="icon-circle bg-success">-->
-<!--                                                                        <i class="fas fa-donate text-white"></i>-->
-<!--                                                                    </div>-->
-<!--                                                                </div>-->
-<!--                                                                <div>-->
-<!--                                                                    <div class="small text-gray-500">December 7, 2023</div>-->
-<!--                                                                    $290.29 has been deposited into your account!-->
-<!--                                                                </div>-->
-<!--                                                            </a>-->
+
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="mr-3">
                                     <div class="icon-circle bg-warning">
@@ -209,125 +191,87 @@
                     </li>
 
                 </ul>
-
             </nav>
             <!-- End of Topbar -->
 
-            <!-- Begin Page Content -->
-            <div class="container-fluid">
-
-                <!-- Page Heading -->
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">대시보드</h1>
-                </div>
-
-                <!-- Content Row -->
-                <div class="row">
-
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <select class="form-control">
-                            <!-- [데이터]{사용자.점포} -->
-                            <option>태근 점</option>
-                            <option>나영 점</option>
-                            <option>주원 점</option>
-                            <option>짠짠 점</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-dark shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                                            전 월 대비 증감량</div>
-                                        <div class="h5 mb-0 font-weight-bold text-primary">+40%</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-video fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-dark shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                                            전 주 대비 증감량</div>
-                                        <div class="h5 mb-0 font-weight-bold text-danger">-120%</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-video fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
 
 
-                </div>
 
-                <!-- Content Row -->
-
-                <div class="row">
-
-                    <!-- Area Chart -->
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Dropdown -->
-                            <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-dark">의심 영상 발생 건수</h6>
-                                <div class="dropdown no-arrow">
-                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                         aria-labelledby="dropdownMenuLink">
-                                        <div class="dropdown-header">기간 별 조회</div>
-                                        <a class="dropdown-item" href="#">일 별</a>
-                                        <a class="dropdown-item" href="#">주 별</a>
-                                        <a class="dropdown-item" href="#">월 별</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Card Body -->
-                            <div class="card-body">
-                                <div class="chart-area">
-                                    <!-- [데이터]{점포.의심영상} -->
-                                    <!-- /js/demo/chart-area-demo.js -->
-                                    <canvas id="myAreaChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+    <!--nav 끝-->
+    <section class="notice ">
+        <div class="page-title">
+            <div class="container">
+                <h3><b>1:1 문의 게시판</b></h3>
             </div>
-            <!-- /.container-fluid -->
-
         </div>
-        <!-- End of Main Content -->
 
-        <!-- Footer -->
-        <footer class="sticky-footer bg-gray-600 footerWrap">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto text-white">
-                    <span>Copyright &copy; Crime Capture TV 2023</span>
+        <!-- board search area -->
+        <div id="board-search">
+            <div class="container">
+                <div class="search-window">
+                    <form action="">
+                        <div class="search-wrap">
+                            <label for="search" class="blind">문의사항 내용 검색</label>
+                            <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="">
+                            <button type="submit" class="btn btn-dark">검색</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </footer>
-        <!-- End of Footer -->
+        </div>
 
-    </div>
-    <!-- End of Content Wrapper -->
+        <!-- board list area -->
+        <div id="board-list">
+            <div class="container">
+                <table class="board-table">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="th-num">번호</th>
+                        <th scope="col" class="th-title">제목</th>
+                        <th scope="col" class="th-date">등록일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>3</td>
+                        <th>
+                            <a href="#!">[공지사항] 개인정보 처리방침 변경안내처리방침</a>
+                            <p>테스트</p>
+                        </th>
+                        <td>2017.07.13</td>
+                    </tr>
+
+                    <tr>
+                        <td>2</td>
+                        <th><a href="#!">공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
+                        <td>2017.06.15</td>
+                    </tr>
+
+                    <tr>
+                        <td>1</td>
+                        <th><a href="#!">공지사항 안내입니다. 이용해주셔서 감사합니다</a></th>
+                        <td>2017.06.15</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--            footer 시작-->
+        <div id="content-wrapper" class="d-flex flex-column footerContainer">
+            <footer class="sticky-footer bg-gray-600 footerWrap">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto text-white">
+                        <span>Copyright &copy; Crime Capture TV 2023</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </section>
+
+
+
+</div>
+<!-- End of Content Wrapper -->
 
 </div>
 <!-- End of Page Wrapper -->
@@ -342,7 +286,6 @@
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <!--로그아웃시 모달-->
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
@@ -352,7 +295,7 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="users/login.html">Logout</a>
+                <a class="btn btn-primary" href="/templates/users/login.html">Logout</a>
             </div>
         </div>
     </div>
@@ -369,13 +312,12 @@
 <script src="/bootstrap/js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
-<script src="/bootstrap/vendor/chart.js/Chart.min.js"></script>
+<script src="/bootstrap/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/bootstrap/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 <!-- Page level custom scripts -->
-<script src="/bootstrap/js/demo/chart-area-demo.js"></script>
-<script src="/bootstrap/js/demo/chart-pie-demo.js"></script>
+<script src="/bootstrap/js/demo/datatables-demo.js"></script>
 
-</div>
 </body>
 
 </html>
