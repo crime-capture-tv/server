@@ -145,9 +145,8 @@ public class EmailService {
     }
 
     // 회원 가입 인증 메시지 발송
-    @Transactional
     public String sendLoginAuthMessage(String to) throws Exception{
-
+        log.info("email : {} ", to);
         MimeMessage message = createMessage(to);
 
         try {
