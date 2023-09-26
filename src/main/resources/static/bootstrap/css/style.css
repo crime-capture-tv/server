@@ -26,3 +26,53 @@
 .alert-pass {
     color: green;
 }
+
+.header-option {
+    width: 280px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.login-form {
+    position: absolute;
+    width: 350px;
+    height: fit-content;
+    background-color: white;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 15px;
+    padding: 30px;
+}
+
+.join-input {
+    border: none;
+    outline: none;
+    border-bottom: solid 1px black;
+    color: #636e72;
+}
+
+.brand-btn, .brand-btn:hover, .brand-btn:active, .brand-btn:focus {
+    font-family: 'Dancing Script', cursive;
+    font-size: xxx-large;
+    font-weight: bold;
+    border: none;
+    color: #96d1cf;
+}
+
+.find-btn, .find-btn:hover, .find-btn:active, .find-btn:focus {
+    border: none;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #ffbe33;
+    color: #ffffff;
+    border-radius: 0.35rem;
+    -webkit-transition: all 1s;
+    transition: all 1s;
+}
+
+.find-btn:hover, .find-btn:active, .find-btn:focus {
+    animation: jelly 0.5s;
+}

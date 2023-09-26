@@ -18,48 +18,27 @@
     <!-- Custom styles for this template-->
     <link href="/bootstrap/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="/bootstrap/css/login.css" rel="stylesheet">
+    <link href="/bootstrap/css/style.css" rel="stylesheet">
 </head>
 
-<body class="bg-gradient-primary">
-
-<div class="container">
-
-    <!-- Outer Row -->
-    <div class="row justify-content-center">
-
-        <div class="disp col-lg-12 col-md-9">
-
-            <div class="card o-hidden border-0 shadow-lg my-5">
-                <div class="card-body p-0">
-                    <!-- Nested Row within Card Body -->
-                    <div class="">
-                        <div class="p-5">
-                            <form th:object="${findByEmailRequest}" id="findByEmailRequest">
-
-                                <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4"><b>비밀번호 재설정</b></h1>
-                                </div>
-                                <div class="form-group">
-                                    <input th:field="*{id}" type="text" class="form-control form-control-user"
-                                           placeholder="아이디를 입력하세요.">
-                                    <br/>
-                                    <input type="text" class="form-control form-control-user"
-                                           th:field="*{email}" placeholder="이메일을 입력하세요.">
-                                    <br/>
-                                    <button type="button" onclick="send_pw_by_email()" class="btn btn-primary btn-user btn-block">비밀번호 재설정</button>
-                                    <button type="button" onclick="window.close()" class="btn btn-primary btn-user btn-block">창 닫기</button>
-
-                                </div>
-                            </form>
-                        </div>
+<body class="color-body" style="background-color: #858796">
+<div class="container px-5">
+    <div class="row gx-5 justify-content-center">
+        <div class="login-form">
+            <h3>비밀번호 찾기</h3><br/>
+            <form class="form-group" th:object="${findByEmailRequest}" id="findByEmailRequest">
+                <input th:field="*{id}" type="text" class="join-input flex-fill" placeholder="아이디를 입력하세요"><br/><br/>
+                <div align="center">
+                    <div class="w-100">
+                        <input th:field="*{email}" type="text" class="join-input flex-fill" placeholder="이메일을 입력하세요"><br/>
+                        <button type="button" onclick="send_pw_by_email()" class="btn send-btn" style="bottom: 20px">비밀번호 찾기</button>
                     </div>
                 </div>
-            </div>
-
+            </form>
+            <br/><br/>
+            <button type="button" onclick="window.close()" class="btn find-btn">창닫기</button>
         </div>
-
     </div>
-
 </div>
 
 <!-- Bootstrap core JavaScript-->
@@ -75,10 +54,11 @@
 
 <script th:inline="javascript">
     function send_pw_by_email() {
-        let userName = $("#userName").val()
+
+        let userId = $("#userId").val()
         let email = $("#email").val()
 
-        if (email == "" || userName == "") {
+        if (email == "" || userId == "") {
             alert("공백일 수 없습니다")
             return
         }
@@ -89,7 +69,7 @@
 
         $.ajax({
             type: 'GET',
-            url: '/api/users/find-pw-by-email',
+            url: '/api/v1/users/find-pw-by-email',
             data: $('#findByEmailRequest').serialize(),
             success: function (message) {
                 alert(message.result)
