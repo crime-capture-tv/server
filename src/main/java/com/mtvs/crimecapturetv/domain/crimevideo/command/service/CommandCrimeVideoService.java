@@ -183,7 +183,7 @@ public class CommandCrimeVideoService {
         log.info("🤖 해당 경로에 파일이 존재합니다. 경로 : {}", suspicionVideoPath02);
 
         crimeVideoRepository.delete(crimeVideo);
-
+        log.info("🤖 삭제가 완료되었습니다.");
 
         File highlightVideo = new File(highlightVideoPath);
         File suspicionVideo01 = new File(suspicionVideoPath01);

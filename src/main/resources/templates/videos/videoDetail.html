@@ -203,26 +203,30 @@
                     <!-- Area Chart -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary" th:text="${crimeVideo.recordedAt + ' 하이라이트 영상'}"></h6>
+                            <h6 class="m-0 font-weight-bold text-primary"
+                                th:text="${'[하이라이트 영상]     '+crimeVideo.recordedAt }"></h6>
                         </div>
-                        <div class="card-body">
-                            <div class="video-player">
-                                <video controls width="900" height="auto">
-                                    <source th:src="@{'/videos/test3.mp4'}" type="video/mp4">
+                        <div class="card-body" >
+                            <div class="video-player" style="display: flex; justify-content: center; align-items: center;">
+                                <video controls width="1021.33" height="auto">
+                                    <source th:src="@{'/video/test3.mp4'}" type="video/mp4">
                                 </video>
                             </div>
+
+                            <div style="margin-top: 10px;"></div>
 
                             <a th:onclick="|criminalStatus('${crimeVideo.videoNo}',1)|"
                                class="btn btn-danger btn-block"
                                th:if="${crimeVideo.criminalStatus == 0}">
                                 범죄영상으로 분류
                             </a>
-                            <a th:onclick="|criminalStatus('${crimeVideo.videoNo}',1)|"
+                            <a th:onclick="|criminalStatus('${crimeVideo.videoNo}',2)|"
                                class="btn btn-warning btn-block"
                                th:if="${crimeVideo.criminalStatus == 0}">
-                               보류영상으로 분류
+                                보류영상으로 분류
                             </a>
-                            <a th:href="@{/stores/all-videosDetail/{videoNo}(videoNo=${crimeVideo.videoNo})}" class="btn btn-info btn-block">
+                            <a th:href="@{'/api/v1/stores/all-videosDetail/' + ${crimeVideo.videoNo}}"
+                               class="btn btn-info btn-block">
                                 영상 전체 보기
                             </a>
 
@@ -300,44 +304,45 @@
 <script src="/bootstrap/js/demo/chart-pie-demo.js"></script>
 
 <script th:inline="javascript">
-        function criminalStatus(videoNo, no) {
-            // 업데이트할 데이터를 이곳에서 준비합니다.
-            var data = {
-                criminalStatus: no
-            };
-            console.log("🤖 PUT 메소드 호출함");
+    function criminalStatus(videoNo, no) {
+        // 업데이트할 데이터를 이곳에서 준비합니다.
+        var data = {
+            criminalStatus: no
+        };
+        console.log("🤖 PUT 메소드 호출함 no : {}", no);
 
-            // 엔드포인트 URL
-            var url = '/api/v1/videos/' + videoNo;
+        // 엔드포인트 URL
+        var changeCriminalStatusURL = '/api/v1/videos/' + videoNo;
+        // 요청 옵션 설정
+        var changeCriminalStatusOptions = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        };
 
-            // 요청 옵션 설정
-            var options = {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            };
+        // Fetch API를 사용하여 PUT 요청을 보냅니다.
 
-            // Fetch API를 사용하여 PUT 요청을 보냅니다.
-            fetch(url, options)
-                .then(function (response) {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(function (data) {
-                    // 성공적인 응답 처리
-                    console.log(data);
-                    alert("비디오 업데이트 성공");
-                })
-                .catch(function (error) {
-                    // 오류 응답 처리
-                    console.error(error);
-                    alert("비디오 업데이트 실패");
-                });
-        }
+        fetch(changeCriminalStatusURL, changeCriminalStatusOptions)
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function (data) {
+                // 성공적인 응답 처리
+                console.log(data);
+                alert("비디오 업데이트 성공");
+            })
+            .catch(function (error) {
+                // 오류 응답 처리
+                console.error(error);
+                alert("비디오 업데이트 실패");
+            });
+        location.reload()
+    }
 </script>
 
 </body>

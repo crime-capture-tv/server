@@ -241,43 +241,52 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <div id="videoListTable" style="display: none;">
+                                <div id="videoListTable">
                                     <table class="table table-bordered" id="videoList" width="100%" cellspacing="0">
                                         <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>녹화일시</th>
-                                            <th>의심범죄유형</th>
-                                            <th>하이라이트영상 경로</th>
-                                            <th>영상 보러가기</th>
+                                            <th style = "text-align: center;">No</th>
+                                            <th style = "text-align: center;">녹화일시</th>
+                                            <th style = "text-align: center;">의심범죄유형</th>
+                                            <th style = "text-align: center;">하이라이트영상 경로</th>
+                                            <th style = "text-align: center;">유저 판단</th>
+                                            <th style = "text-align: center;">영상 보러가기</th>
+                                            <th style = "text-align: center;">삭제</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr th:each="videos : ${videoList}">
-                                            <td>
-                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
                                                   th:text="${videos.no}"></span>
                                             </td>
-                                            <td>
-                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
                                                   th:text="${videos.recordedAt}"></span>
                                             </td>
-                                            <td>
-                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
                                                   th:text="${videos.crimeType}"></span>
                                             </td>
-                                            <td>
-                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
                                                   th:text="${videos.highlightVideoPath}"></span>
                                             </td>
-                                            <td>
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
+                                                  th:text="${videos.criminalStatus == 0 ? '확인필요' : (videos.criminalStatus == 1 ? '절도' : '보류')}"></span>
+                                            </td>
+                                            <td style = "text-align: center; vertical-align: middle;">
                                                 <!--/*@thymesVar id="no" type="*/-->
-                                                <a th:href="@{/stores/videosDetail/{videoNo}(videoNo=${videos.no})}"
-                                                   class="btn btn-primary btn-icon-split">
-                                                <span class="icon text-white-50">
-                                                    <i class="fas fa-flag"></i>
-                                                </span>
+                                                <a th:href="@{videosDetail/{videoNo}(videoNo=${videos.no})}"
+                                                   class="btn btn-secondary btn-icon-split">
                                                     <span class="text">영상보기</span>
+                                                </a>
+                                            </td>
+                                            <td style="text-align: center; vertical-align: middle;">
+                                                <a th:onclick="'deleteCrimeVideo(\'' + ${videos.no} + '\')'"
+                                                   class="btn btn-danger btn-block">
+                                                    <span class="text">삭제</span>
                                                 </a>
                                             </td>
                                         </tr>
@@ -291,39 +300,48 @@
                                            cellspacing="0">
                                         <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>녹화일시</th>
-                                            <th>의심범죄유형</th>
-                                            <th>하이라이트영상 경로</th>
-                                            <th>영상 보러가기</th>
+                                            <th style = "text-align: center;">No</th>
+                                            <th style = "text-align: center;">녹화일시</th>
+                                            <th style = "text-align: center;">의심범죄유형</th>
+                                            <th style = "text-align: center;">하이라이트영상 경로</th>
+                                            <th style = "text-align: center;">유저 판단</th>
+                                            <th style = "text-align: center;">영상 보러가기</th>
+                                            <th style = "text-align: center;">삭제</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr th:each="videos : ${videoListStatus0}">
-                                            <td>
-                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
                                                   th:text="${videos.no}"></span>
                                             </td>
-                                            <td>
-                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
                                                   th:text="${videos.recordedAt}"></span>
                                             </td>
-                                            <td>
-                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
                                                   th:text="${videos.crimeType}"></span>
                                             </td>
-                                            <td>
-                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
                                                   th:text="${videos.highlightVideoPath}"></span>
                                             </td>
-                                            <td>
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
+                                                  th:text="${videos.criminalStatus == 0 ? '확인필요' : (videos.criminalStatus == 1 ? '절도' : '보류')}"></span>
+                                            </td>
+                                            <td style = "text-align: center; vertical-align: middle;">
                                                 <!--/*@thymesVar id="no" type="*/-->
-                                                <a th:href="@{/stores/videosDetail/{videoNo}(videoNo=${videos.no})}"
-                                                   class="btn btn-primary btn-icon-split">
-                                                <span class="icon text-white-50">
-                                                    <i class="fas fa-flag"></i>
-                                                </span>
+                                                <a th:href="@{videosDetail/{videoNo}(videoNo=${videos.no})}"
+                                                   class="btn btn-secondary btn-icon-split">
                                                     <span class="text">영상보기</span>
+                                                </a>
+                                            </td>
+                                            <td style="text-align: center; vertical-align: middle;">
+                                                <a th:onclick="'deleteCrimeVideo(\'' + ${videos.no} + '\')'"
+                                                   class="btn btn-danger btn-block">
+                                                    <span class="text">삭제</span>
                                                 </a>
                                             </td>
                                         </tr>
@@ -337,39 +355,48 @@
                                            cellspacing="0">
                                         <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>녹화일시</th>
-                                            <th>의심범죄유형</th>
-                                            <th>하이라이트영상 경로</th>
-                                            <th>영상 보러가기</th>
+                                            <th style = "text-align: center;">No</th>
+                                            <th style = "text-align: center;">녹화일시</th>
+                                            <th style = "text-align: center;">의심범죄유형</th>
+                                            <th style = "text-align: center;">하이라이트영상 경로</th>
+                                            <th style = "text-align: center;">유저 판단</th>
+                                            <th style = "text-align: center;">영상 보러가기</th>
+                                            <th style = "text-align: center;">삭제</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr th:each="videos : ${videoListStatus1}">
-                                            <td>
-                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
                                                   th:text="${videos.no}"></span>
                                             </td>
-                                            <td>
-                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
                                                   th:text="${videos.recordedAt}"></span>
                                             </td>
-                                            <td>
-                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
                                                   th:text="${videos.crimeType}"></span>
                                             </td>
-                                            <td>
-                                            <span class=" text-sm font-weight-bold" style="color: #0d6efd"
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
                                                   th:text="${videos.highlightVideoPath}"></span>
                                             </td>
-                                            <td>
+                                            <td style = "text-align: center; vertical-align: middle;">
+                                            <span class=" text-sm font-weight-bold" style="color: #2c2c2d"
+                                                  th:text="${videos.criminalStatus == 0 ? '확인필요' : (videos.criminalStatus == 1 ? '절도' : '보류')}"></span>
+                                            </td>
+                                            <td style = "text-align: center; vertical-align: middle;">
                                                 <!--/*@thymesVar id="no" type="*/-->
-                                                <a th:href="@{/stores/videosDetail/{videoNo}(videoNo=${videos.no})}"
-                                                   class="btn btn-primary btn-icon-split">
-                                                <span class="icon text-white-50">
-                                                    <i class="fas fa-flag"></i>
-                                                </span>
+                                                <a th:href="@{videosDetail/{videoNo}(videoNo=${videos.no})}"
+                                                   class="btn btn-secondary btn-icon-split">
                                                     <span class="text">영상보기</span>
+                                                </a>
+                                            </td>
+                                            <td style="text-align: center; vertical-align: middle;">
+                                                <a th:onclick="'deleteCrimeVideo(\'' + ${videos.no} + '\')'"
+                                                   class="btn btn-danger btn-block">
+                                                    <span class="text">삭제</span>
                                                 </a>
                                             </td>
                                         </tr>
@@ -451,7 +478,7 @@
 <!-- Page level custom scripts -->
 <script src="/bootstrap/js/demo/chart-area-demo.js"></script>
 <script src="/bootstrap/js/demo/chart-pie-demo.js"></script>
-<script>
+<script th:inline="javascript">
     const selectElement = document.getElementById("criminal-status");
     const videoListTable = document.getElementById("videoListTable");
     const videoListStatus0Table = document.getElementById("videoListStatus0Table");
@@ -475,6 +502,41 @@
             videoListStatus1Table.style.display = "block";
         }
     });
+
+    // 버튼을 클릭할 때 deleteVideo 함수 호출
+    function deleteCrimeVideo(videoNo) {
+        console.log("🤖 Delete 메소드 호출함 no : {}", videoNo);
+        // 엔드포인트 URL
+        var deleteCrimeVideoURL = '/api/v1/videos/' + videoNo;
+        // 요청 옵션 설정
+        var deleteCrimeVideoOptions = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        };
+
+        // Fetch API를 사용하여 DELETE 요청을 보냅니다.
+        fetch(deleteCrimeVideoURL, deleteCrimeVideoOptions)
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function (data) {
+                // 성공적인 응답 처리
+                console.log(data);
+                alert("비디오 삭제 성공");
+                // 비디오 삭제 성공 후 페이지 리로드
+                location.reload();
+            })
+            .catch(function (error) {
+                // 오류 응답 처리
+                console.error(error);
+                alert("비디오 삭제 실패");
+            });
+    }
 </script>
 
 </div>

@@ -42,8 +42,8 @@ public class CrimeVideoController {
     public String videos(Model model, @AuthenticationPrincipal UserDetail userDetail, Pageable pageable) {
 
         Long storeNo = 1L;
-        UserDto userDto = getUserDto(userDetail.getId());
-        StoreDTO storeDTO = getStoreDTO(userDetail.getNo(), storeNo);
+//        UserDto userDto = getUserDto(userDetail.getId());
+//        StoreDTO storeDTO = getStoreDTO(userDetail.getNo(), storeNo);
 
         Page<ReadAllCrimeVideoResponse> responsePageAll = crimeVideoService.readCrimeVideoLists(4L, storeNo, pageable);
         log.info("🤖 pageCount {}", responsePageAll.stream().count());
@@ -118,4 +118,9 @@ public class CrimeVideoController {
     public StoreDTO getStoreDTO(Long userNo, Long storeNo) {
         return storeService.detail(userNo, storeNo);
     }
+    @GetMapping("board")
+    public String board(){
+        return "boards/board-list";
+    }
+
 }
