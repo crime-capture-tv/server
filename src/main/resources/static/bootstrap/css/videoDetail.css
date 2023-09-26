@@ -1,0 +1,40 @@
+.video-player {
+    width: 100px;
+    height: auto;
+}
+.btn-put-criminalStatus {
+    color: #fff;
+    background-color: #ea4335;
+    border-color: #fff;
+}
+
+.btn-put-criminalStatus:hover {
+    background-color: #e12717;
+    border-color: #e6e6e6;
+}
+
+.btn-put-criminalStatus.focus,
+.btn-put-criminalStatus:focus {
+    background-color: #e12717;
+    border-color: #e6e6e6;
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+}
+
+.btn-put-criminalStatus.disabled,
+.btn-put-criminalStatus:disabled {
+    background-color: #ea4335;
+    border-color: #fff;
+}
+
+.btn-put-criminalStatus:not(:disabled):not(.disabled).active,
+.btn-put-criminalStatus:not(:disabled):not(.disabled):active,
+.show > .btn-put-criminalStatus.dropdown-toggle {
+    background-color: #d62516;
+    border-color: #dfdfdf;
+}
+
+.btn-put-criminalStatus:not(:disabled):not(.disabled).active:focus,
+.btn-put-criminalStatus:not(:disabled):not(.disabled):active:focus,
+.show > .btn-put-criminalStatus.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+}

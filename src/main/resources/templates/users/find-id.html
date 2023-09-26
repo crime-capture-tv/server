@@ -18,44 +18,27 @@
     <!-- Custom styles for this template-->
     <link href="/bootstrap/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="/bootstrap/css/login.css" rel="stylesheet">
+    <link href="/bootstrap/css/style.css" rel="stylesheet">
+
 </head>
 
-<body class="bg-gradient-primary">
-
-<div class="container">
-
-    <!-- Outer Row -->
-    <div class="row justify-content-center">
-
-        <div class="disp col-lg-12 col-md-9">
-
-            <div class="card o-hidden border-0 shadow-lg my-5">
-                <div class="card-body p-0">
-                    <!-- Nested Row within Card Body -->
-                    <div class="">
-                        <div class="p-5">
-                            <form th:object="${findByEmailRequest}" id="findByEmailRequest">
-                                <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4"><b>아이디 찾기</b></h1>
-                                </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-user"
-                                               th:field="*{email}" placeholder="이메일을 입력하세요.">
-                                        <br/>
-                                        <button type="button" onclick="send_id_by_email()" class="btn btn-primary btn-user btn-block">찾기</button>
-                                        <button type="button" onclick="window.close()" class="btn btn-primary btn-user btn-block">창 닫기</button>
-
-                                    </div>
-                            </form>
-                        </div>
+<body class="color-body" style="background-color: #858796">
+<div class="container px-5">
+    <div>
+        <div class="login-form">
+            <h3>아이디 찾기</h3><br/>
+            <form th:object="${findByEmailRequest}" id="findByEmailRequest">
+                <div align="center">
+                    <div class="w-100 d-flex">
+                        <input th:field="*{email}" type="text" class="join-input" placeholder="이메일을 입력하세요">
+                        <button type="button" onclick="send_id_by_email()" class="btn find-btn">찾기</button>
                     </div>
                 </div>
-            </div>
-
+            </form>
+            <br/><br/>
+            <button type="button" onclick="window.close()" class="btn find-btn">창닫기</button>
         </div>
-
     </div>
-
 </div>
 
 <!-- Bootstrap core JavaScript-->
@@ -86,11 +69,12 @@
             url: '/api/v1/users/find-id-by-email',
             data: $('#findByEmailRequest').serialize(),
             success: function (message) {
+                console.log(message)
                 alert(message.result)
                 if(message.result == "메일로 아이디를 전송했습니다.") {
                     window.close()
                 } else {
-                    location.href = "users/find-id"
+                    location.href = "/users/find-id"
                 }
             }
         });

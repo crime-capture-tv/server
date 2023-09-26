@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Crime Capture TV - Dashboard</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/bootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/bootstrap/css/index.css" rel="stylesheet">
+    <link href="/bootstrap/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap");
+
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black-color: #111;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0px;
+        }
+
+        body {
+            font-family: "Noto Sans KR", sans-serif;
+            line-height: 1.4;
+        }
+
+        h3 {
+            margin: 0;
+        }
+
+        input {
+            border: none;
+            outline: none;
+        }
+
+        button {
+            border: none;
+            outline: none;
+            font-family: inherit;
+            font-size: inherit;
+            margin: 0;
+            padding: 0;
+            background-color: inherit;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        fieldset {
+            border: 0;
+            padding: 0;
+            margin: 0;
+            min-width: 0;
+        }
+
+        .sr-only {
+            font-size: 0;
+            height: 0;
+            visibility: hidden;
+        }
+
+        .btn {
+            display: inline-block;
+            height: 40px;
+            padding: 0 15px;
+            line-height: 38px;
+            border: 1px solid #666;
+            border-radius: 4px;
+            color: #fff;
+            background-color: #666;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            opacity: 0.7;
+        }
+
+        .btn__text {
+            font-size: 14px;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-box label {
+            display: inline-block;
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: #111;
+        }
+
+        .input-box input {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #111111;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .input-box input::placeholder {
+            color: #888888;
+        }
+
+        .input-box input:not(:read-only):not(:disabled):focus {
+            box-shadow: 0 0 5px 1px #D3D3D3;
+        }
+
+        .input-box input:disabled,
+        .input-box input:read-only {
+            background-color: #e8e8e8;
+            cursor: default;
+        }
+
+        .form-wrapper {
+            max-width: 700px;
+            min-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form__header {
+            padding: 10px 0;
+            border-bottom: 2px solid var(--black-color);
+        }
+
+        .form__title {
+            font-size: 20px;
+            line-height: 29px;
+        }
+
+        .form__body {
+            padding: 30px 0;
+        }
+
+        .form__row::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .form__row:not(:last-child) {
+            margin-bottom: 10px;
+        }
+
+        .form__label {
+            overflow: hidden;
+            float: left;
+            width: 160px;
+            padding: 10px 0;
+            font-size: 14px;
+            line-height: 22px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .form__label.required::after {
+            content: "*";
+            display: inline;
+            color: #e03131;
+        }
+
+        .form__control {
+            float: left;
+            width: calc(100% - 160px);
+        }
+
+        .form__control::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .form__control .input-box {
+            position: relative;
+            float: left;
+            width: 345px;
+        }
+
+        .form__control .input-box input {
+            height: 40px;
+        }
+
+        .form__control .btn {
+            float: left;
+            margin-left: 10px;
+        }
+
+        .form__btns {
+            text-align: center;
+        }
+
+        .select {
+            display: block;
+            width: 220px;
+            padding: 10px 15px;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #111111;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .zipcodeType {
+            display: block;
+            width: 220px;
+            padding: 10px 15px;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #111111;
+            transition: box-shadow 0.3s ease;
+
+        }
+
+        .test {
+            float: left;
+        }
+
+        .test-button {
+            margin-left: 26px;
+        }
+
+        .zipco {
+            width: 41% !important;
+        }
+    </style>
+</head>
+
+<body id="page-top display: flex">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <form th:object="${myPageEditRequest}" id="myPageEditRequest"></form>
+
+    <!-- 사이드바 -->
+    <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+            <div class="sidebar-brand-icon">
+                <img src="/bootstrap/img/logo.png" width="170"></img>
+            </div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link" href="/">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>대시보드</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            관리
+        </div>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link" href="/templates/stores/store.html">
+                <i class="fas fa-fw fa-store"></i>
+                <span>점포 관리</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-fw fa-video"></i>
+                <span>영상 관리</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/templates/boards/board.html">
+                <i class="fas fa-fw fa-comment"></i>
+                <span>1:1 문의</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="http://192.168.226.214:5000">
+                <i class="fas fa-fw fa-comment"></i>
+                <span>실시간 영상확인</span>
+            </a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+
+    </ul>
+    <!-- 사이드바 끝 -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand navbar-light bg-gray-600 topbar mb-4 static-top shadow">
+
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <ul class="navbar-nav ml-auto">
+
+                    <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                    <li class="nav-item dropdown no-arrow d-sm-none">
+                        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <!-- Dropdown - Messages -->
+                        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                             aria-labelledby="searchDropdown">
+                            <form class="form-inline mr-auto w-100 navbar-search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control bg-light border-0 small"
+                                           placeholder="Search for..." aria-label="Search"
+                                           aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button">
+                                            <i class="fas fa-search fa-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+
+                    <!-- Nav Item - Alerts -->
+                    <li class="nav-item dropdown no-arrow mx-1">
+                        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-bell fa-fw"></i>
+                        </a>
+                        <!-- Dropdown - Alerts -->
+                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                             aria-labelledby="alertsDropdown">
+                            <h6 class="dropdown-header">
+                                Alerts Center
+                            </h6>
+
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <div class="mr-3">
+                                    <div class="icon-circle bg-warning">
+                                        <i class="fas fa-exclamation-triangle text-white"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="small text-gray-500">[데이터]{영상.등록날짜}</div>
+                                    의심 영상 : [데이터]{영상.영상날짜} <!--토스터-->
+                                </div>
+                            </a>
+                            <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                        </div>
+                    </li>
+
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-white">
+                                 <li sec:authorize="isAnonymous()" class="nav-item"><a class="nav-link active"
+                                                                                       href="/users/login">Login</a></li>
+                            </span>
+
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <span class="mr-2 d-none d-lg-inline text-white">
+                            <li sec:authorize="isAuthenticated()" class="nav-item">
+                                <div style="float: left">
+                                    <a class="dropdown-item" href="/users/mypage">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        MyPage
+                                    </a>
+                                </div>
+
+                                <div>
+                                    <a class="dropdown-item" href="/users/logout">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </li>
+                        </span>
+                    </li>
+
+                </ul>
+
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <div class="form-wrapper">
+                    <div class="form">
+                        <div class="form__header">
+                            <h3 class="form__title">
+                                회원 정보
+                            </h3>
+                        </div>
+
+                        <br/>
+
+                        <div class="form__row">
+                            <div class="form__label required">
+                                <label>
+                                    이메일
+                                </label>
+                            </div>
+                            <div class="form__control">
+                                <div class="input-box">
+                                    [[${user.email}]]
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form__row">
+                            <div class="form__label required">
+                                <label>
+                                    이름
+                                </label>
+                            </div>
+                            <div class="form__control">
+                                <div class="input-box">
+                                    [[${user.name}]]
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form__row">
+                            <div class="form__label required">
+                                <label>
+                                    아이디
+                                </label>
+                            </div>
+                            <div class="form__control">
+                                <div class="input-box">
+                                    [[${user.id}]]
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form__row">
+                            <div class="form__label required">
+                                <label>
+                                    비밀번호
+                                </label>
+                            </div>
+                            <div class="form__control">
+                                <div class="input-box">
+                                    <input th:field="*{myPageEditRequest.password}" type="password" class="form-control form-control-user"
+                                           placeholder="새로운 비밀번호를 입력하세요.">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form__row">
+                            <div class="form__label required">
+                                <label>
+                                    비밀번호 확인
+                                </label>
+                            </div>
+                            <div class="form__control">
+                                <div class="input-box">
+                                    <input id="password-check" type="password" class="form-control form-control-user" placeholder="비밀번호 확인" oninput="check_pw()">
+                                    <div style="margin-top: 5px" class="w-75">
+                                        <div id="password-check-pass" class="alert-pass" hidden>비밀번호가 일치합니다.</div>
+                                        <div id="password-check-fail" class="alert-fail" hidden>비밀번호가 일치하지 않습니다.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form__row">
+                            <div class="form__label required">
+                                <label>
+                                    전화번호
+                                </label>
+                            </div>
+                            <div class="form__control">
+                                <div class="input-box">
+                                    <input th:field="${myPageEditRequest.phoneNumber}" type="text" class="form-control form-control-user"
+                                           placeholder="새로운 전화번호를 입력하세요.">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form__btns">
+                            <button type="button" class="btn" onclick="editInfo()">정보 수정하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- End of Main Content -->
+</div>
+<footer class="sticky-footer bg-gray-600 footerWrap">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto text-white">
+            <span>Copyright &copy; Crime Capture TV 2023</span>
+        </div>
+    </div>
+</footer>
+</div>
+
+
+<!-- End of Content Wrapper -->
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!--로그아웃시 모달-->
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">로그아웃을 원하시면 아래의 "로그아웃" 버튼을 눌러주세요.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+                <a class="btn btn-primary" href="users/login.html">로그아웃</a>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="/bootstrap/vendor/jquery/jquery.min.js"></script>
+<script src="/bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="/bootstrap/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/bootstrap/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="/bootstrap/vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="/bootstrap/js/demo/chart-area-demo.js"></script>
+<script src="/bootstrap/js/demo/chart-pie-demo.js"></script>
+
+<script th:inline="javascript">
+
+    let passwordPass = false
+
+    function check_pw() {
+        passwordPass = false
+
+        let pw = $("#password").val();
+        let pw2 = $("#password-check").val();
+
+        if(pw != '' && pw2 != ''){
+            if(pw == pw2){
+                show('password-check-pass')
+                hide('password-check-fail')
+                passwordPass = true
+            }
+            else{
+                hide('password-check-pass')
+                show('password-check-fail')
+            }
+        }
+    }
+
+    function show(id) {
+        if(document.getElementById(id) != null) {
+            document.getElementById(id).removeAttribute("hidden")
+        }
+    }
+    function hide(id) {
+        if(document.getElementById(id) != null) {
+            document.getElementById(id).setAttribute("hidden", "true")
+        }
+    }
+
+
+    function editInfo() {
+
+        let userNo =  [[${userNo}]];
+
+        let requestData = {
+            password : $("#password").val(),
+            phoneNumber : $("#phoneNumber").val()
+        }
+
+        let formData = new FormData();
+        formData.append("request", new Blob([JSON.stringify(requestData)], {type: "application/json"}));
+
+        $.ajax({
+            type: "POST",
+            url: '/users/mypage/'+userNo+'/edit',
+            data: formData,
+            contentType: false, // 필수 : x-www-form-urlencoded로 파싱되는 것을 방지
+            processData: false,  // 필수: contentType을 false로 줬을 때 QueryString 자동 설정됨. 해제
+            success: function (message) {
+                alert(message.split("*")[0])
+                location.href = "/users"+message.split("*")[1]
+            }
+        });
+
+    }
+
+
+</script>
+
+</body>
+
+</html>

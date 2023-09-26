@@ -70,7 +70,7 @@
                                     </div>
 
                                     <div class="inputElement">
-                                        <div class="w-75 d-flex">
+                                        <div class="w-100 d-flex test">
                                             <input th:field="*{email}" type="text" class="form-control form-control-user"
                                                 placeholder="이메일을 입력하세요." oninput="check_email()" >
                                             <button id="sendEmail-btn" type="button" class="send-btn" onclick="send_email()" disabled>인증번호 전송</button>
@@ -83,7 +83,7 @@
                                             <div id="email-null" class="alert-fail" hidden>공백일 수 없습니다.</div>
                                             <div id="email-type" class="alert-fail" hidden>이메일 형식이 아닙니다.</div>
                                         </div>
-                                        <div id="check-email" style="margin-top: 20px;" hidden>
+                                        <div class="" id="check-email" style="width: 100% !important;" hidden>
                                             <input th:field="*{code}" type="text" class="form-control form-control-user" placeholder="인증번호">
                                             <button type="button" class="send-btn" onclick="auth_email()">인증</button>
                                         </div>

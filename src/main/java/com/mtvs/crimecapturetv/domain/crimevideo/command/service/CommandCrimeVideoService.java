@@ -89,9 +89,8 @@ public class CommandCrimeVideoService {
         log.info("🤖 result : {}", result.getCrimeType());
 
 
-
         // 보내진 사람있는 영상이 의심이 아니면 저장된 파일 삭제
-        if(result.getCrimeType().equals("normal")) {
+        if (result.getCrimeType().equals("normal")) {
 
             // 영상 삭제
             File suspicionVideo01 = new File(suspicionVideoPath01);
@@ -184,7 +183,7 @@ public class CommandCrimeVideoService {
         log.info("🤖 해당 경로에 파일이 존재합니다. 경로 : {}", suspicionVideoPath02);
 
         crimeVideoRepository.delete(crimeVideo);
-
+        log.info("🤖 삭제가 완료되었습니다.");
 
         File highlightVideo = new File(highlightVideoPath);
         File suspicionVideo01 = new File(suspicionVideoPath01);
@@ -207,6 +206,11 @@ public class CommandCrimeVideoService {
         } else {
             return crimeVideoRepository.findAllByStoreAndCriminalStatus(store, criminalStatus, pageable).map(ReadAllCrimeVideoResponse::of);
         }
+    }
+
+    public CrimeVideo getCrimeVideo(Long crimeVideoNo) {
+        return crimeVideoRepository.findById(crimeVideoNo)
+                .orElseThrow(() -> new AppException(ErrorCode.CRIME_VIDEO_NOT_FOUNDED));
     }
 
 
@@ -234,4 +238,6 @@ public class CommandCrimeVideoService {
             throw new AppException(ErrorCode.FILE_NOT_FOUNDED);
         }
     }
+
+
 }
