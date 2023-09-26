@@ -31,13 +31,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("api/v1/stores/")
 public class CrimeVideoController {
 
     private final CommandUserService userService;
     private final CommandStoreService storeService;
     private final CommandCrimeVideoService crimeVideoService;
 
-    @GetMapping("/stores/videos")
+    @GetMapping("videos")
     public String videos(Model model, @AuthenticationPrincipal UserDetail userDetail, Pageable pageable) {
 
         Long storeNo = 1L;
@@ -58,7 +59,7 @@ public class CrimeVideoController {
         return "videos/videoList";
     }
 
-    @GetMapping("/stores/videosDetail/{videoNo}")
+    @GetMapping("videosDetail/{videoNo}")
     public String videoDetail(@PathVariable Long videoNo, Model model, @AuthenticationPrincipal UserDetail userDetail, Pageable pageable) {
         Long storeNo = 1L;
         UserDto userDto = getUserDto(userDetail.getId());
@@ -72,7 +73,7 @@ public class CrimeVideoController {
         return "videos/videoDetail";
     }
 
-    @GetMapping("/stores/all-videosDetail/{videoNo}")
+    @GetMapping("all-videosDetail/{videoNo}")
     public String allVideoDetail(@PathVariable Long videoNo, Model model, @AuthenticationPrincipal UserDetail userDetail, Pageable pageable) {
         Long storeNo = 1L;
         UserDto userDto = getUserDto(userDetail.getId());
