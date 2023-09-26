@@ -59,7 +59,7 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link" href="/templates/boards/board-list1212.html">
+            <a class="nav-link" href="/stores/store-list">
                 <i class="fas fa-fw fa-store"></i>
                 <span>점포 관리</span></a>
         </li>
@@ -69,7 +69,7 @@
                 <span>영상 관리</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/templates/boards/board-list1212.html">
+            <a class="nav-link" href="/boards/board-list">
                 <i class="fas fa-fw fa-comment"></i>
                 <span>1:1 문의</span></a>
         </li>
@@ -231,7 +231,7 @@
                                th:if="${crimeVideo.criminalStatus == 0}">
                                 보류영상으로 분류
                             </a>
-                            <a th:href="@{'/api/v1/stores/all-videosDetail/' + ${crimeVideo.videoNo}}"
+                            <a th:href="@{'/stores/all-videosDetail/' + ${crimeVideo.videoNo}}"
                                class="btn btn-info btn-block">
                                 영상 전체 보기
                             </a>
