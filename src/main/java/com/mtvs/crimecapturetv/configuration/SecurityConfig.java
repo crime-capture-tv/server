@@ -54,6 +54,7 @@ public class SecurityConfig {
                 .authorizeRequests() // URI에 따른 페이지에 대한 권한 부여(antMatchers 기능을 이용하기 위한 메소드)
 //                .antMatchers("/api/v1/users/**").permitAll() // 특정 URL 접근 시 인가가 필요한 URI 설정
                 .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/stores/**").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .exceptionHandling()
