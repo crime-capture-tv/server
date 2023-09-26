@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
 
 <head>
 
@@ -256,7 +257,7 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link" href="/templates/boards/board-list1212.html">
+            <a class="nav-link" href="/stores/store-list">
                 <i class="fas fa-fw fa-store"></i>
                 <span>점포 관리</span></a>
         </li>
@@ -266,7 +267,7 @@
                 <span>영상 관리</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/templates/boards/board-list1212.html">
+            <a class="nav-link" href="/templates/boards/board-list.html">
                 <i class="fas fa-fw fa-comment"></i>
                 <span>1:1 문의</span></a>
         </li>
@@ -359,30 +360,29 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-white">[데이터]{사용자.이름}</span>
+                            <span class="mr-2 d-none d-lg-inline text-white">
+                                 <li sec:authorize="isAnonymous()" class="nav-item"><a class="nav-link active" href="/users/login">Login</a></li>
+                            </span>
 
                         </a>
                         <!-- Dropdown - User Information -->
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                             aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Profile
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Settings
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Activity Log
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Logout
-                            </a>
-                        </div>
+                        <span class="mr-2 d-none d-lg-inline text-white">
+                            <li sec:authorize="isAuthenticated()" class="nav-item">
+                                <div style="float: left">
+                                    <a class="dropdown-item" href="/users/mypage">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        MyPage
+                                    </a>
+                                </div>
+
+                                <div >
+                                    <a class="dropdown-item" href="/users/logout">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" ></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </li>
+                        </span>
                     </li>
 
                 </ul>
@@ -402,7 +402,7 @@
                         </div>
 
                         <div class="form__body">
-                            <form>
+                            <form action="store-regist" method="post">
                                 <fieldset>
                                     <legend class="sr-only">
                                         매장등록 양식
@@ -411,41 +411,41 @@
                                     <!--          -->
                                     <div class="form__row">
                                         <div class="form__label required">
-                                            <label for="id">
+                                            <label for="name">
                                                 대표자명
                                             </label>
                                         </div>
                                         <div class="form__control">
                                             <div class="input-box">
-                                                <input id="id" type="text" placeholder="대표자명">
+                                                <input id="name" type="text" placeholder="대표자명">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form__row">
                                         <div class="form__label required">
-                                            <label for="id">
+                                            <label for="storeName">
                                                 매장명
                                             </label>
                                         </div>
 
                                         <div class="form__control">
                                             <div class="input-box">
-                                                <input id="id" type="text" placeholder="매장명">
+                                                <input id="storeName" type="text" placeholder="매장명">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form__row">
                                         <div class="form__label required">
-                                            <label for="id">
+                                            <label for="businessRegistNumber">
                                                 사업자 등록 번호
                                             </label>
                                         </div>
 
                                         <div class="form__control">
                                             <div class="input-box">
-                                                <input id="id" type="text" placeholder="123-12-12345 (-없이 입력)">
+                                                <input id="businessRegistNumber" type="text" placeholder="123-12-12345 (-없이 입력)">
                                             </div>
                                         </div>
                                     </div>
@@ -453,16 +453,16 @@
 
                                     <div class="form__row">
                                         <div class="form__label required">
-                                            <label for="id">
+                                            <label for="zipcode">
                                                 우편번호
                                             </label>
                                         </div>
                                         <div class="form__control">
                                             <div class="input-box zipco test">
-                                                <input id="postCode" type="text" placeholder="우편번호">
+                                                <input id="zipcode" type="text" placeholder="우편번호">
                                             </div>
                                             <div class="test test-button">
-                                                <button type="button" class="btn" style="display: inline-block; margin: 0 5px;  float: right;" >주소 검색</button>
+                                                <button type="button"onclick="find_postcode()" value="우편번호 찾기" class="btn" style="display: inline-block; margin: 0 5px;  float: right;" >주소 검색</button>
                                             </div>
 
                                         </div>
@@ -472,27 +472,27 @@
 
                                     <div class="form__row">
                                         <div class="form__label required">
-                                            <label for="id">
+                                            <label for="streetAddress">
                                                 주소
                                             </label>
                                         </div>
                                         <div class="form__control">
                                             <div class="input-box">
-                                                <input id="id" type="text" placeholder="주소">
+                                                <input id="streetAddress" type="text" placeholder="주소">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form__row">
                                         <div class="form__label required">
-                                            <label for="id">
+                                            <label for="detailAddress">
                                                 상세 주소
                                             </label>
                                         </div>
 
                                         <div class="form__control">
                                             <div class="input-box">
-                                                <input id="id" type="text" placeholder="상세 주소">
+                                                <input id="detailAddress" type="text" placeholder="상세 주소">
                                             </div>
                                         </div>
                                     </div>
@@ -515,21 +515,21 @@
 
                                     <div class="form__row">
                                         <div class="form__label required">
-                                            <label for="id">
+                                            <label for="storePhoneNumber">
                                                 매장 전화 번호
                                             </label>
                                         </div>
 
                                         <div class="form__control">
                                             <div class="input-box">
-                                                <input id="id" type="text" placeholder="02-1234-0000 (-없이 입력)">
+                                                <input id="storePhoneNumber" type="text" placeholder="02-1234-0000 (-없이 입력)">
                                             </div>
                                         </div>
                                     </div>
 
 
                                     <div class="form__btns">
-                                        <button type="button" class="btn">매장 등록</button>
+                                        <button onclick="location.href='/stores/store-list'" type="submit" class="btn">매장 등록</button>
                                     </div>
                                 </fieldset>
                             </form>
@@ -594,6 +594,48 @@
     <!-- Page level custom scripts -->
     <script src="/bootstrap/js/demo/chart-area-demo.js"></script>
     <script src="/bootstrap/js/demo/chart-pie-demo.js"></script>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        function find_postcode() {
+
+            console.log('function call')
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    console.log('data', data)
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if(data.userSelectedType === 'R') {
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if (data.buildingName !== '' && data.apartment === 'Y') {
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                    }
+
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('zipcode').value = data.zonecode;
+                    document.getElementById("streetAddress").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("detailAddress").focus();
+                }
+            }).open();
+        }
+    </script>
 
 </div>
 </body>
