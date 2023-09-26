@@ -53,16 +53,16 @@ public class MyPageController {
     @GetMapping("/{userNo}/edit")
     public String editPage(Model model, @PathVariable Long userNo, @AuthenticationPrincipal UserDetail userDetail) {
 
-        UserDto userDto = userService.findUserByNo(userNo);
+        UserDto user = userService.findUserByNo(userNo);
 
         // 다른 사람의 정보 수정 페이지에 진입했을 경우
-        if (!userDetail.getId(). equals(userDto.getId())) {
+        if (!userDetail.getId(). equals(user.getId())) {
             model.addAttribute("msg", "내 정보만 수정 가능합니다.");
             model.addAttribute("nextPage", "/users/mypage");
             return "/index";
         }
 
-        model.addAttribute("user", userDto);
+        model.addAttribute("user", user);
         model.addAttribute("myPageEditRequest", new CommandMyPageEditRequest());
 
         return "users/myPageEdit";

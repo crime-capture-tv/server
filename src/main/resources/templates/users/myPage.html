@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
 
 <head>
 
@@ -20,9 +21,233 @@
     <!-- Custom styles for this template-->
     <link href="/bootstrap/css/index.css" rel="stylesheet">
     <link href="/bootstrap/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap");
+
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black-color: #111;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0px;
+        }
+
+        body {
+            font-family: "Noto Sans KR", sans-serif;
+            line-height: 1.4;
+        }
+
+        h3 {
+            margin: 0;
+        }
+
+        input {
+            border: none;
+            outline: none;
+        }
+
+        button {
+            border: none;
+            outline: none;
+            font-family: inherit;
+            font-size: inherit;
+            margin: 0;
+            padding: 0;
+            background-color: inherit;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        fieldset {
+            border: 0;
+            padding: 0;
+            margin: 0;
+            min-width: 0;
+        }
+
+        .sr-only {
+            font-size: 0;
+            height: 0;
+            visibility: hidden;
+        }
+
+        .btn {
+            display: inline-block;
+            height: 40px;
+            padding: 0 15px;
+            line-height: 38px;
+            border: 1px solid #666;
+            border-radius: 4px;
+            color: #fff;
+            background-color: #666;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            opacity: 0.7;
+        }
+
+        .btn__text {
+            font-size: 14px;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-box label {
+            display: inline-block;
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: #111;
+        }
+
+        .input-box input {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #111111;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .input-box input::placeholder {
+            color: #888888;
+        }
+
+        .input-box input:not(:read-only):not(:disabled):focus {
+            box-shadow: 0 0 5px 1px #D3D3D3;
+        }
+
+        .input-box input:disabled,
+        .input-box input:read-only {
+            background-color: #e8e8e8;
+            cursor: default;
+        }
+
+        .form-wrapper {
+            max-width: 700px;
+            min-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form__header {
+            padding: 10px 0;
+            border-bottom: 2px solid var(--black-color);
+        }
+
+        .form__title {
+            font-size: 20px;
+            line-height: 29px;
+        }
+
+        .form__body {
+            padding: 30px 0;
+        }
+
+        .form__row::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .form__row:not(:last-child) {
+            margin-bottom: 10px;
+        }
+
+        .form__label {
+            overflow: hidden;
+            float: left;
+            width: 160px;
+            padding: 10px 0;
+            font-size: 14px;
+            line-height: 22px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .form__label.required::after {
+            content: "*";
+            display: inline;
+            color: #e03131;
+        }
+
+        .form__control {
+            float: left;
+            width: calc(100% - 160px);
+        }
+
+        .form__control::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .form__control .input-box {
+            position: relative;
+            float: left;
+            width: 345px;
+        }
+
+        .form__control .input-box input {
+            height: 40px;
+        }
+
+        .form__control .btn {
+            float: left;
+            margin-left: 10px;
+        }
+
+        .form__btns {
+            text-align: center;
+        }
+
+        .select {
+            display: block;
+            width: 220px;
+            padding: 10px 15px;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #111111;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .zipcodeType {
+            display: block;
+            width: 220px;
+            padding: 10px 15px;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #111111;
+            transition: box-shadow 0.3s ease;
+
+        }
+
+        .test {
+            float: left;
+        }
+
+        .test-button {
+            margin-left: 26px;
+        }
+
+        .zipco {
+            width: 41% !important;
+        }
+    </style>
 </head>
 
-<body id="page-top">
+<body id="page-top display: flex">
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -31,7 +256,7 @@
     <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/" >
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
             <div class="sidebar-brand-icon">
                 <img src="/bootstrap/img/logo.png" width="170"></img>
             </div>
@@ -133,9 +358,6 @@
                         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-bell fa-fw"></i>
-                            <!-- Counter - Alerts -->
-<!--                            알림 개수 표시-->
-<!--                            <span class="badge badge-danger badge-counter">3+&lt;!&ndash;[데이터]{신규 의심 영상 갯수}&ndash;&gt;</span>-->
                         </a>
                         <!-- Dropdown - Alerts -->
                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -159,15 +381,13 @@
                         </div>
                     </li>
 
-
-                    <div class="topbar-divider d-none d-sm-block"></div>
-
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-white">
-                                 <li sec:authorize="isAnonymous()" class="nav-item"><a class="nav-link active" href="/users/login">Login</a></li>
+                                 <li sec:authorize="isAnonymous()" class="nav-item"><a class="nav-link active"
+                                                                                       href="/users/login">Login</a></li>
                             </span>
 
                         </a>
@@ -181,9 +401,9 @@
                                     </a>
                                 </div>
 
-                                <div >
+                                <div>
                                     <a class="dropdown-item" href="/users/logout">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" ></i>
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Logout
                                     </a>
                                 </div>
@@ -199,126 +419,103 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
-                <!-- Page Heading -->
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">대시보드</h1>
-                </div>
+                <div class="form-wrapper">
+                    <div class="form">
+                        <div class="form__header">
+                            <h3 class="form__title">
+                                회원 정보
+                            </h3>
+                        </div>
 
-                <!-- Content Row -->
-                <div class="row">
+                        <br/>
 
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <select class="form-control">
-                            <!-- [데이터]{사용자.점포} -->
-                            <option>태근 점</option>
-                            <option>나영 점</option>
-                            <option>주원 점</option>
-                            <option>짠짠 점</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-dark shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                                            전 월 대비 증감량</div>
-                                        <div class="h5 mb-0 font-weight-bold text-primary">+40%</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-video fa-2x text-gray-300"></i>
-                                    </div>
+                        <div class="form__row">
+                            <div class="form__label ">
+                                <label >
+                                    이메일
+                                </label>
+                            </div>
+                            <div class="form__control">
+                                <div class="input-box">
+                                    [[${user.email}]]
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-dark shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                                            전 주 대비 증감량</div>
-                                        <div class="h5 mb-0 font-weight-bold text-danger">-120%</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-video fa-2x text-gray-300"></i>
-                                    </div>
+
+                        <div class="form__row">
+                            <div class="form__label">
+                                <label >
+                                    이름
+                                </label>
+                            </div>
+                            <div class="form__control">
+                                <div class="input-box">
+                                    [[${user.name}]]
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
 
-
-                </div>
-
-                <!-- Content Row -->
-
-                <div class="row">
-
-                    <!-- Area Chart -->
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Dropdown -->
-                            <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-dark">의심 영상 발생 건수</h6>
-                                <div class="dropdown no-arrow">
-                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                         aria-labelledby="dropdownMenuLink">
-                                        <div class="dropdown-header">기간 별 조회</div>
-                                        <a class="dropdown-item" href="#">일 별</a>
-                                        <a class="dropdown-item" href="#">주 별</a>
-                                        <a class="dropdown-item" href="#">월 별</a>
-                                    </div>
-                                </div>
+                        <div class="form__row">
+                            <div class="form__label">
+                                <label >
+                                    아이디
+                                </label>
                             </div>
-                            <!-- Card Body -->
-                            <div class="card-body">
-                                <div class="chart-area">
-                                    <!-- [데이터]{점포.의심영상} -->
-                                    <!-- /js/demo/chart-area-demo.js -->
-                                    <canvas id="myAreaChart"></canvas>
+                            <div class="form__control">
+                                <div class="input-box">
+                                    [[${user.id}]]
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                        <div class="form__row">
+                            <div class="form__label">
+                                <label >
+                                    전화번호
+                                </label>
+                            </div>
+                            <div class="form__control">
+                                <div class="input-box">
+                                    [[${user.phoneNumber}]]
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form__btns">
+                            <button type="button" class="btn"
+                                    th:onclick="|location.href='@{/users/mypage/{userNo}/edit (userNo=${user.no})}'|">정보
+                                수정하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- /.container-fluid -->
-
         </div>
-        <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <footer class="sticky-footer bg-gray-600 footerWrap">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto text-white">
-                    <span>Copyright &copy; Crime Capture TV 2023</span>
-                </div>
-            </div>
-        </footer>
-        <!-- End of Footer -->
-
     </div>
-    <!-- End of Content Wrapper -->
 
+
+
+    <!-- End of Main Content -->
 </div>
+<footer class="sticky-footer bg-gray-600 footerWrap">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto text-white">
+            <span>Copyright &copy; Crime Capture TV 2023</span>
+        </div>
+    </div>
+</footer>
+</div>
+
+
+<!-- End of Content Wrapper -->
 <!-- End of Page Wrapper -->
 
 <!-- Scroll to Top Button-->
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
+
 
 <!-- Logout Modal-->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -358,15 +555,6 @@
 <script src="/bootstrap/js/demo/chart-area-demo.js"></script>
 <script src="/bootstrap/js/demo/chart-pie-demo.js"></script>
 
-    <script th:inline="javascript" sec:authorize="isAnonymous()">
-        window.onload = function () {
-            alert('로그인 후 서비스 이용이 가능합니다.')
-            location.href='/users/login'
-        }
-    </script>
-
-
-</div>
 </body>
 
 </html>
