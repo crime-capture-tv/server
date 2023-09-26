@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
 
 <head>
 
@@ -32,11 +33,10 @@
     <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/" >
             <div class="sidebar-brand-icon">
-                <img src="/bootstrap/img/logo.png" width="50"></img>
+                <img src="/bootstrap/img/logo.png" width="170"></img>
             </div>
-            <div class="sidebar-brand-text mx-3"><img src="/bootstrap/img/logo_text.png" width="100"></img></div>
         </a>
 
         <!-- Divider -->
@@ -46,7 +46,7 @@
         <li class="nav-item active">
             <a class="nav-link" href="/">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>영상 관리</span></a>
+                <span>대시보드</span></a>
         </li>
 
         <!-- Divider -->
@@ -59,19 +59,25 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link" href="/templates/stores/store.html">
+            <a class="nav-link" href="/templates/boards/board-list1212.html">
                 <i class="fas fa-fw fa-store"></i>
                 <span>점포 관리</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" th:href="@{/stores/videos}">
                 <i class="fas fa-fw fa-video"></i>
                 <span>영상 관리</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/templates/boards/board.html">
+            <a class="nav-link" href="/templates/boards/board-list1212.html">
                 <i class="fas fa-fw fa-comment"></i>
                 <span>1:1 문의</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="http://192.168.226.214:5000">
+                <i class="fas fa-fw fa-comment"></i>
+                <span>실시간 영상확인</span>
+            </a>
         </li>
 
         <!-- Divider -->
@@ -128,7 +134,7 @@
                     <li class="nav-item dropdown no-arrow mx-1">
                         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-bell fa-fw"></i>
+                            <i class="fas fa-bell fa-fw" style="margin-top: 20px"></i>
                             <!-- Counter - Alerts -->
                             <!--                            알림 개수 표시-->
                             <!--                            <span class="badge badge-danger badge-counter">3+&lt;!&ndash;[데이터]{신규 의심 영상 갯수}&ndash;&gt;</span>-->
@@ -161,33 +167,33 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-white">[데이터]{사용자.이름}</span>
+                            <span class="mr-2 d-none d-lg-inline text-white">
+                                 <li sec:authorize="isAnonymous()" class="nav-item"><a class="nav-link active" href="/users/login">Login</a></li>
+                            </span>
 
                         </a>
                         <!-- Dropdown - User Information -->
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                             aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Profile
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Settings
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Activity Log
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Logout
-                            </a>
-                        </div>
+                        <span class="mr-2 d-none d-lg-inline text-white">
+                            <li sec:authorize="isAuthenticated()" class="nav-item header-option">
+                                <div style="float: left">
+                                    <a class="dropdown-item" href="/users/mypage" style="margin-top: 30px">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        MyPage
+                                    </a>
+                                </div>
+
+                                <div style="float: left">
+                                    <a class="dropdown-item" href="/users/logout" style="margin-top: 30px">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" ></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </li>
+                        </span>
                     </li>
 
                 </ul>
+
 
             </nav>
             <!-- End of Topbar -->
@@ -239,21 +245,23 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class=" sticky-footer bg-gray-600 footerWrap">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto text-white">
-                        <span>Copyright &copy; Crime Capture TV 2023</span>
-                    </div>
-                </div>
-            </footer>
+
             <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->
 
+
+
     </div>
     <!-- End of Page Wrapper -->
-
+    <footer class=" sticky-footer bg-gray-600 footerWrap">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto text-white">
+                <span>Copyright &copy; Crime Capture TV 2023</span>
+            </div>
+        </div>
+    </footer>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
