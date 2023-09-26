@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("api/v1/stores/")
+@RequestMapping("/stores/")
 public class CrimeVideoController {
 
     private final CommandUserService userService;

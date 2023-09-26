@@ -257,7 +257,7 @@
     <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/" >
             <div class="sidebar-brand-icon">
                 <img src="/bootstrap/img/logo.png" width="170"></img>
             </div>
@@ -283,17 +283,17 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link" href="/templates/stores/store.html">
+            <a class="nav-link" href="/templates/boards/board-list1212.html">
                 <i class="fas fa-fw fa-store"></i>
                 <span>점포 관리</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" th:href="@{/stores/videos}">
                 <i class="fas fa-fw fa-video"></i>
                 <span>영상 관리</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/templates/boards/board.html">
+            <a class="nav-link" href="/templates/boards/board-list1212.html">
                 <i class="fas fa-fw fa-comment"></i>
                 <span>1:1 문의</span></a>
         </li>
@@ -358,7 +358,10 @@
                     <li class="nav-item dropdown no-arrow mx-1">
                         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-bell fa-fw"></i>
+                            <i class="fas fa-bell fa-fw" style="margin-top: 20px"></i>
+                            <!-- Counter - Alerts -->
+                            <!--                            알림 개수 표시-->
+                            <!--                            <span class="badge badge-danger badge-counter">3+&lt;!&ndash;[데이터]{신규 의심 영상 갯수}&ndash;&gt;</span>-->
                         </a>
                         <!-- Dropdown - Alerts -->
                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -366,7 +369,6 @@
                             <h6 class="dropdown-header">
                                 Alerts Center
                             </h6>
-
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="mr-3">
                                     <div class="icon-circle bg-warning">
@@ -382,29 +384,31 @@
                         </div>
                     </li>
 
+
+                    <div class="topbar-divider d-none d-sm-block"></div>
+
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-white">
-                                 <li sec:authorize="isAnonymous()" class="nav-item"><a class="nav-link active"
-                                                                                       href="/users/login">Login</a></li>
+                                 <li sec:authorize="isAnonymous()" class="nav-item"><a class="nav-link active" href="/users/login">Login</a></li>
                             </span>
 
                         </a>
                         <!-- Dropdown - User Information -->
                         <span class="mr-2 d-none d-lg-inline text-white">
-                            <li sec:authorize="isAuthenticated()" class="nav-item">
+                            <li sec:authorize="isAuthenticated()" class="nav-item header-option">
                                 <div style="float: left">
-                                    <a class="dropdown-item" href="/users/mypage">
+                                    <a class="dropdown-item" href="/users/mypage" style="margin-top: 30px">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         MyPage
                                     </a>
                                 </div>
 
-                                <div>
-                                    <a class="dropdown-item" href="/users/logout">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <div style="float: left">
+                                    <a class="dropdown-item" href="/users/logout" style="margin-top: 30px">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" ></i>
                                         Logout
                                     </a>
                                 </div>
@@ -528,7 +532,7 @@
 
     <!-- End of Main Content -->
 </div>
-<footer class="sticky-footer bg-gray-600 footerWrap">
+<footer class="sticky-footer bg-gray-600 footerWrap" style="margin: unset">
     <div class="container my-auto">
         <div class="copyright text-center my-auto text-white">
             <span>Copyright &copy; Crime Capture TV 2023</span>
