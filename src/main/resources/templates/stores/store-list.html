@@ -24,7 +24,6 @@
     <!-- Custom styles for this page -->
     <link href="../bootstrap/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap");
         * {
@@ -240,14 +239,14 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-    <!-- 사이드바 -->
     <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/" >
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../index.html">
             <div class="sidebar-brand-icon">
-                <img src="/bootstrap/img/logo.png" width="170"></img>
+                <img src="/bootstrap/img/logo.png" width="50"></img>
             </div>
+            <div class="sidebar-brand-text mx-3"><img src="/bootstrap/img/logo_text.png" width="100"></img></div>
         </a>
 
         <!-- Divider -->
@@ -255,7 +254,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="/">
+            <a class="nav-link" href="../index.html">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>대시보드</span></a>
         </li>
@@ -280,15 +279,9 @@
                 <span>영상 관리</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/boards/board">
+            <a class="nav-link" href="/boards/board-list">
                 <i class="fas fa-fw fa-comment"></i>
                 <span>1:1 문의</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="http://192.168.226.214:5000">
-                <i class="fas fa-fw fa-comment"></i>
-                <span>실시간 영상확인</span>
-            </a>
         </li>
 
         <!-- Divider -->
@@ -300,8 +293,6 @@
         </div>
 
     </ul>
-    <!-- 사이드바 끝 -->
-
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -416,7 +407,7 @@
     <section class="notice ">
         <div class="page-title">
             <div class="container">
-                <h3><b>1:1 문의 게시판</b></h3>
+                <h3><b>관리 매장 리스트</b></h3>
             </div>
         </div>
 
@@ -425,12 +416,11 @@
             <div class="container">
                 <div class="search-window">
                     <form action="">
-                        <button onclick="location.href='/boards/board'" type="button" class="btn">매장 등록</button>
+                        <button onclick="location.href='/stores/store-regist'" type="button" class="btn">매장 등록</button>
                         <div class="search-wrap">
-                            <label for="search" class="blind">문의사항 내용 검색</label>
-                            <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="">
-                            <button type="submit" class="btn btn-dark">검색</button>
-
+                            <label for="search" class="blind">매장 검색</label>
+                            <input id="search" type="search" name="" placeholder="매장명 입력해주세요." value="">
+                            <button type="submit" class="btn btn-dark" style="display: inline-block; margin : 0 3px;" onclick="/store-regist" >검색</button>
                         </div>
                     </form>
                 </div>
@@ -444,16 +434,16 @@
                     <thead>
                     <tr>
                         <th scope="col" class="th-num">번호</th>
-                        <th scope="col" class="th-title">제목</th>
+                        <th scope="col" class="th-title">매장명</th>
                         <th scope="col" class="th-date">등록일</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="board : ${ boards }" class="bg-white border-b  ">
+                    <tr th:each="store : ${ stores }" class="bg-white border-b  ">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "></th>
-                        <td th:text="${board.boardNo}" class="px-6 py-4"></td>
-                        <td th:text="${board.boardTitle}" class="px-6 py-4"></td>
-                        <td th:text="${board.createdAt}" class="px-6 py-4"></td>
+                        <td th:text="${store.storeNo}" class="px-6 py-4"></td>
+                        <td th:text="${store.storeName}" class="px-6 py-4"></td>
+                        <td th:text="${store.createdAt}" class="px-6 py-4"></td>
 
                     </tr>
                     </tbody>

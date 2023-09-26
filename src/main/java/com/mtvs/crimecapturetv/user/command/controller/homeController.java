@@ -23,10 +23,10 @@ public class homeController {
         return "index";
     }
 
-    @GetMapping("/store")
-    public String store() {
-        return "board";
-    }
+//    @GetMapping("/store")
+//    public String store() {
+//        return "stores/store-list";
+//    }
 
 //    @GetMapping("/users/login")
 //    public String usersLogin() {
